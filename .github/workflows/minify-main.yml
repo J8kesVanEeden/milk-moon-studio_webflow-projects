@@ -11,15 +11,13 @@ jobs:
     
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
         
-      - name: HTML/CSS/JS Minifier
-        uses: devatherock/minify-js@v2.0.0
+      - name: Auto Minify
+        uses: marketplace-actions/html-css-js-minifier@master
         with:
-          directory: .
-          output: mini
-          add_suffix: false
-
+          args: --input-dir . --output-dir ./mini --overwrite
+        
       - name: Commit and push if changed
         run: |
           git config --local user.email "action@github.com"
