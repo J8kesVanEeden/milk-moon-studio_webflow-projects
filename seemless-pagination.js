@@ -1,4 +1,4 @@
-// Function to dynamically load a script - lets do this
+// Function to dynamically load a script
 function loadScript(url, callback) {
     var script = document.createElement("script");
     script.type = "text/javascript";
@@ -56,4 +56,4 @@ loadScript("https://cdnjs.cloudflare.com/ajax/libs/jquery.pjax/2.0.1/jquery.pjax
         Webflow.require('ix2').init();
     });
     */
-});
+});)
