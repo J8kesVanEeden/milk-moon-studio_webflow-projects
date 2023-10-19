@@ -12,6 +12,8 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
+        with:
+          ref: refs/heads/main  # Replace with your default branch name if it's not 'main'
 
       - name: Set up Node.js
         uses: actions/setup-node@v2
@@ -35,5 +37,6 @@ jobs:
           git config user.name "GitHub Action"
           git config user.email "action@github.com"
           git add mini/*
+          git status  # This will show the status of the repository
           git commit -m "Minified JS" || echo "No changes to commit"
-          git push origin main  # Replace with your default branch name if it's not 'main'
+          git push origin main  # Replace with your default branch name if it's not 'main' or remove this line to prevent pushing
