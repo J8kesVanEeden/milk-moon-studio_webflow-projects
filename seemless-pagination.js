@@ -1,4 +1,4 @@
-// Function to dynamically load a script
+// Function to dynamically load a script - lets do this
 function loadScript(url, callback) {
     var script = document.createElement("script");
     script.type = "text/javascript";
