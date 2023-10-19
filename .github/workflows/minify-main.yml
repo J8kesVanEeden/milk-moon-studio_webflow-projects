@@ -1,0 +1,39 @@
+name: Minify JavaScript
+
+on:
+  push:
+    branches:
+      - main  # Replace with your default branch name if it's not 'main'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+
+      - name: Install dependencies
+        run: |
+          npm install terser -g
+
+      - name: Minify JavaScript
+        run: |
+          mkdir -p mini
+          for file in $(find . -name '*.js'); do
+            outfile="mini/$(basename $file .js).min.js"
+            terser $file -o $outfile --compress --mangle
+          done
+
+      - name: Commit and push
+        run: |
+          git config user.name "GitHub Action"
+          git config user.email "action@github.com"
+          git add mini/*
+          git commit -m "Minified JS" || echo "No changes to commit"
+          git push origin main  # Replace with your default branch name if it's not 'main'
