@@ -3,7 +3,7 @@ name: Minify JavaScript
 on:
   push:
     branches:
-      - main  # Replace with your default branch name if it's not 'main'
+      - main
 
 jobs:
   build:
@@ -12,8 +12,6 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
-        with:
-          ref: refs/heads/main  # Replace with your default branch name if it's not 'main'
 
       - name: Set up Node.js
         uses: actions/setup-node@v2
@@ -32,11 +30,16 @@ jobs:
             npx terser $file -o $outfile --compress --mangle
           done
 
+      - name: Display Git config and branch
+        run: |
+          git config --list
+          git branch
+
       - name: Commit and push
         run: |
           git config user.name "GitHub Action"
           git config user.email "action@github.com"
           git add mini/*
-          git status  # This will show the status of the repository
+          git status
           git commit -m "Minified JS" || echo "No changes to commit"
-          git push origin main  # Replace with your default branch name if it's not 'main' or remove this line to prevent pushing
+          git push origin HEAD || echo "Push failed"
