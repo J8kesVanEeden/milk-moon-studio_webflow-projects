@@ -13,12 +13,12 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
         
-      - name: Auto Minify
-        uses: nizarmah/auto-minify@v2.1
+      - name: HTML/CSS/JS Minifier
+        uses: devatherock/minify-js@v2.0.0
         with:
           directory: .
           output: mini
-          overwrite: true
+          add_suffix: false
 
       - name: Commit and push if changed
         run: |
