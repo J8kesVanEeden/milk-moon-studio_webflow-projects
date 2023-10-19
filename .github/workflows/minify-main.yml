@@ -1,4 +1,4 @@
-name: Minify JavaScript
+name: Auto Minify JS and CSS
 
 on:
   push:
@@ -10,36 +10,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v2
+      - name: Auto Minify
+        uses: nizarmah/auto-minify@v2.1.1
         with:
-          node-version: '16'
-
-      - name: Install dependencies
-        run: |
-          npm install terser
-
-      - name: Minify JavaScript
-        run: |
-          mkdir -p mini
-          for file in $(find . -name '*.js' ! -path "./mini/*" ! -path "./node_modules/*" ! -name '*.min.js'); do
-            outfile="mini/$(basename $file .js).min.js"
-            npx terser $file -o $outfile --compress --mangle
-          done
-
-      - name: Display Git config and branch
-        run: |
-          git config --list
-          git branch
-
-      - name: Commit and push
-        run: |
-          git config user.name "GitHub Action"
-          git config user.email "action@github.com"
-          git add mini/*
-          git status
-          git commit -m "Minified JS" || echo "No changes to commit"
-          git push origin HEAD || echo "Push failed"
+          destination: mini
+          overwrite: true
