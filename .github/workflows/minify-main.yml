@@ -13,8 +13,8 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
         
-      - name: Minify HTML, CSS, JS
-        uses: ampbench/minify@master
+      - name: Minify HTML, CSS, and JS
+        uses: ampbench/minify@main
         with:
           directory: .
           output: mini
