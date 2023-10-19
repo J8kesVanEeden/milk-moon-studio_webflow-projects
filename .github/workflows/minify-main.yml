@@ -11,12 +11,16 @@ jobs:
     
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v3
         
-      - name: Auto Minify
-        uses: marketplace-actions/html-css-js-minifier@master
+      - name: HTML/CSS/JS Minifier
+        uses: devatherock/minify-js@v2.0.0
         with:
-          args: --input . --output ./mini --overwrite
+          html-folder: .
+          css-folder: .
+          js-folder: .
+          output-folder: mini
+          overwrite: true
         
       - name: Commit and push if changed
         run: |
