@@ -16,26 +16,12 @@ jobs:
           ref: refs/heads/main  # Replace with your default branch name if it's not 'main'
           token: ${{ secrets.GH_TOKEN }}
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v2
+      - name: Minify JavaScript files
+        uses: nizarmah/auto-minify@v1
         with:
-          node-version: '16'
-
-      - name: Install dependencies
-        run: |
-          npm install terser
-
-      - name: Clean mini directory
-        run: |
-          rm -rf mini
-          mkdir -p mini
-
-      - name: Minify JavaScript
-        run: |
-          for file in $(find . -name '*.js' ! -path "./mini/*" ! -name '*.min.js'); do
-            outfile="mini/$(basename $file .js).min.js"
-            npx terser $file -o $outfile --compress --mangle
-          done
+          type: "js"
+          source: "."
+          destination: "mini"
 
       - name: Commit and push
         run: |
