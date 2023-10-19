@@ -56,4 +56,4 @@ loadScript("https://cdnjs.cloudflare.com/ajax/libs/jquery.pjax/2.0.1/jquery.pjax
         Webflow.require('ix2').init();
     });
     */
-});)
+});
