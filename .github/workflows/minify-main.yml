@@ -16,7 +16,7 @@ jobs:
       - name: Auto Minify
         uses: marketplace-actions/html-css-js-minifier@master
         with:
-          args: --input-dir . --output-dir ./mini --overwrite
+          args: --input . --output ./mini --overwrite
         
       - name: Commit and push if changed
         run: |
