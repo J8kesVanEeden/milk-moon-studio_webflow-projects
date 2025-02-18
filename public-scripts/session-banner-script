@@ -1,0 +1,61 @@
+<!-- 🎯 Session-Based Banner Script (No Cookies, Attributes Only) -->
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  /**
+   * Function to initialize the session-based banner behavior.
+   * - Shows the banner on every new session but allows users to hide it.
+   * - Uses `sessionStorage` (not cookies) to track if the user closed the banner.
+   * - Fully attribute-based for Webflow compatibility.
+   */
+  function initializeBanner() {
+    const banner = document.querySelector('[banner-element="banner-component"]'); // Banner container
+    const closeButton = document.querySelector('[banner-element="close"]'); // Close button
+
+    // Ensure both elements exist before proceeding
+    if (!banner || !closeButton) {
+      return;
+    }
+
+    // Step 1: Make the banner visible (prevents flashing issues)
+    banner.style.visibility = 'visible';
+
+    // Step 2: Check if the banner was closed this session
+    if (!sessionStorage.getItem('banner-closed')) {
+      banner.style.opacity = '1'; // Smooth fade-in effect
+    } else {
+      banner.style.display = 'none'; // Hide if previously closed
+    }
+
+    // Step 3: Close button event listener
+    closeButton.addEventListener('click', function () {
+      banner.style.opacity = '0'; // Start fade-out transition
+
+      // Wait for transition to complete before fully hiding the banner
+      setTimeout(() => {
+        banner.style.display = 'none';
+      }, 300); // Matches CSS transition time
+
+      // Store the closed state in sessionStorage (resets each session)
+      sessionStorage.setItem('banner-closed', 'true');
+    });
+  }
+
+  /**
+   * MutationObserver: Ensures the script runs only when Webflow has rendered elements.
+   * - Listens for dynamically loaded content to prevent errors.
+   * - Runs `initializeBanner()` once all required elements exist.
+   */
+  const observer = new MutationObserver((mutations, obs) => {
+    if (
+      document.querySelector('[banner-element="banner-component"]') &&
+      document.querySelector('[banner-element="close"]')
+    ) {
+      initializeBanner(); // Initialize banner once elements are ready
+      obs.disconnect(); // Stop observing after successful initialization
+    }
+  });
+
+  // Observe the document for dynamically added elements
+  observer.observe(document.body, { childList: true, subtree: true });
+});
+</script>
