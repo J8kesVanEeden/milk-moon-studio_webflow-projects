@@ -2,6 +2,7 @@
   let hymnList = [];
   let currentIndex = -1;
   let currentSound = null;
+  let observerActive = false;
 
   function getHymnList() {
     return Array.from(document.querySelectorAll('[data-howler][data-howler-src]')).map((el, idx) => ({
@@ -71,26 +72,30 @@
       html5: true,
       onplay: function() {
         updateProgress();
-        document.querySelector('.fixed-play-bar_wrap').setAttribute('data-howler-status', 'playing');
+        const bar = document.querySelector('.fixed-play-bar_wrap');
+        if (bar) bar.setAttribute('data-howler-status', 'playing');
         updateItemStatus(idx, 'playing');
       },
       onpause: function() {
-        document.querySelector('.fixed-play-bar_wrap').setAttribute('data-howler-status', 'not-playing');
+        const bar = document.querySelector('.fixed-play-bar_wrap');
+        if (bar) bar.setAttribute('data-howler-status', 'not-playing');
         updateItemStatus(idx, 'not-playing');
       },
       onend: function() {
-        document.querySelector('.fixed-play-bar_wrap').setAttribute('data-howler-status', 'not-playing');
-        updateItemStatus(idx, 'not-playing');
         const bar = document.querySelector('.fixed-play-bar_wrap');
-        const timelineProgress = bar.querySelector('.howler-player__timeline-progress[data-howler-control="progress"]');
-        if (timelineProgress) {
-          timelineProgress.style.width = '0%';
-          timelineProgress.setAttribute('aria-valuenow', '0');
+        if (bar) bar.setAttribute('data-howler-status', 'not-playing');
+        updateItemStatus(idx, 'not-playing');
+        if (bar) {
+          const timelineProgress = bar.querySelector('.howler-player__timeline-progress[data-howler-control="progress"]');
+          if (timelineProgress) {
+            timelineProgress.style.width = '0%';
+            timelineProgress.setAttribute('aria-valuenow', '0');
+          }
+          const mobileBarWrap = bar.querySelector('.fixed-play-bar_play-bar_wrap');
+          const mobileBar = bar.querySelector('.fixed-play-bar_play-bar[data-howler-progress-bar]');
+          if (mobileBar) mobileBar.style.width = '0%';
+          if (mobileBarWrap) mobileBarWrap.setAttribute('aria-valuenow', '0');
         }
-        const mobileBarWrap = bar.querySelector('.fixed-play-bar_play-bar_wrap');
-        const mobileBar = bar.querySelector('.fixed-play-bar_play-bar[data-howler-progress-bar]');
-        if (mobileBar) mobileBar.style.width = '0%';
-        if (mobileBarWrap) mobileBarWrap.setAttribute('aria-valuenow', '0');
       },
       onload: function() {
         const bar = document.querySelector('.fixed-play-bar_wrap');
@@ -107,6 +112,8 @@
     function updateProgress() {
       if (!currentSound || !currentSound.playing()) return;
       const bar = document.querySelector('.fixed-play-bar_wrap');
+      if (!bar) return;
+      
       const current = currentSound.seek() || 0;
       const duration = currentSound.duration() || 1;
       const percent = Math.min(100, (current / duration) * 100);
@@ -210,49 +217,141 @@
 
   function setupListPlayButtons() {
     hymnList.forEach((hymn, idx) => {
-      const playBtn = hymn.el.querySelector('.howler-player_button-play');
-      const pauseBtn = hymn.el.querySelector('.howler-player_button-pause');
+      // Find the button with data-howler-control="toggle-play" within this hymn element
+      const toggleButton = hymn.el.querySelector('[data-howler-control="toggle-play"]');
       
-      if (playBtn) {
-        // Clear any existing event handlers to prevent duplicates
-        playBtn.onclick = null;
-        playBtn.onclick = () => playHymn(idx);
-      }
-      
-      if (pauseBtn) {
-        // Clear any existing event handlers to prevent duplicates
-        pauseBtn.onclick = null;
-        pauseBtn.onclick = () => {
+      if (toggleButton) {
+        // Clear existing handler and add new one
+        toggleButton.onclick = null;
+        toggleButton.onclick = function(e) {
+          e.preventDefault();
+          e.stopPropagation();
+          console.log('🎵 Playing hymn:', idx, hymn.title);
+          
+          // Check if this hymn is currently playing
           if (currentSound && currentSound.playing() && currentIndex === idx) {
             currentSound.pause();
+          } else {
+            playHymn(idx);
           }
         };
       }
     });
   }
 
+  // Set up MutationObserver to watch for DOM changes
+  function setupDOMObserver() {
+    if (observerActive) return;
+    
+    const targetNode = document.querySelector('[data-howler-list-container]') || document.body;
+    const config = { childList: true, subtree: true };
+    
+    let timeoutId;
+    const observer = new MutationObserver(function(mutations) {
+      let shouldReinit = false;
+      
+      mutations.forEach(function(mutation) {
+        if (mutation.type === 'childList') {
+          // Check if any nodes with data-howler were added or removed
+          mutation.addedNodes.forEach(function(node) {
+            if (node.nodeType === 1 && (node.hasAttribute('data-howler') || node.querySelector('[data-howler]'))) {
+              shouldReinit = true;
+            }
+          });
+          
+          mutation.removedNodes.forEach(function(node) {
+            if (node.nodeType === 1 && (node.hasAttribute('data-howler') || node.querySelector('[data-howler]'))) {
+              shouldReinit = true;
+            }
+          });
+        }
+      });
+      
+      if (shouldReinit) {
+        clearTimeout(timeoutId);
+        timeoutId = setTimeout(reInitHowlerPlayer, 200); // Slightly longer debounce for Jetboost
+      }
+    });
+    
+    observer.observe(targetNode, config);
+    observerActive = true;
+    console.log('🔍 DOM Observer active on', targetNode.tagName, targetNode.className || '[no classes]');
+  }
+
+  // Event delegation for play buttons (backup method)
+  function setupEventDelegation() {
+    document.body.addEventListener('click', function(e) {
+      // Check if clicked element has the toggle-play data attribute
+      if (e.target.closest('[data-howler-control="toggle-play"]')) {
+        const toggleButton = e.target.closest('[data-howler-control="toggle-play"]');
+        const hymnElement = toggleButton.closest('[data-howler]');
+        
+        if (hymnElement) {
+          const idx = hymnList.findIndex(hymn => hymn.el === hymnElement);
+          if (idx !== -1) {
+            e.preventDefault();
+            e.stopPropagation();
+            console.log('🎯 Event delegation triggered for hymn:', idx);
+            
+            // Check if this hymn is currently playing
+            if (currentSound && currentSound.playing() && currentIndex === idx) {
+              currentSound.pause();
+            } else {
+              playHymn(idx);
+            }
+          }
+        }
+      }
+    });
+  }
+
   function reInitHowlerPlayer() {
-    console.log('Reinitializing Howler Player...'); // Debug log
+    console.log('🎵 Reinitializing Howler Player...');
+    const oldCount = hymnList.length;
     hymnList = getHymnList();
+    console.log(`Found ${hymnList.length} hymns (was ${oldCount})`);
     setupFixedBarControls();
     setupListPlayButtons();
+    console.log('✅ Howler Player reinitialized');
   }
 
-  // Listen for all Jetboost events
-  document.addEventListener('jetboost:filterapplied', reInitHowlerPlayer);
-  document.addEventListener('jetboost:pagination', reInitHowlerPlayer);
-  document.addEventListener('jetboost:sortapplied', reInitHowlerPlayer);
-  document.addEventListener('jetboost:searchapplied', reInitHowlerPlayer); // Also handle search
-  document.addEventListener('jetboost:domupdated', reInitHowlerPlayer); // Fallback for any DOM updates
-
-  // Initialize on DOM ready
-  document.addEventListener('DOMContentLoaded', reInitHowlerPlayer);
-
-  // Also initialize immediately if DOM is already loaded
-  if (document.readyState === 'loading') {
-    // Document is still loading, wait for DOMContentLoaded
-  } else {
-    // Document is already loaded, initialize immediately
+  // Initialize everything
+  function init() {
+    console.log('🚀 Initializing Howler Player...');
     reInitHowlerPlayer();
+    setupDOMObserver();
+    setupEventDelegation();
+    
+    // Listen for Jetboost events - using a more comprehensive approach
+    const jetboostEvents = [
+      'jetboost:filterapplied',
+      'jetboost:pagination', 
+      'jetboost:sortapplied',
+      'jetboost:searchapplied',
+      'jetboost:domupdated',
+      'jetboost:list:updated'  // Additional Jetboost event
+    ];
+    
+    jetboostEvents.forEach(eventName => {
+      document.addEventListener(eventName, function(e) {
+        console.log(`📡 Jetboost event: ${eventName}`);
+        // Add a small delay to ensure DOM is fully updated
+        setTimeout(reInitHowlerPlayer, 100);
+      });
+    });
+    
+    console.log('✅ Howler Player initialized with Jetboost support');
   }
+
+  // Start when DOM is ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+
+  // Also reinitialize on window load as a fallback
+  window.addEventListener('load', function() {
+    setTimeout(reInitHowlerPlayer, 500);
+  });
 })();
