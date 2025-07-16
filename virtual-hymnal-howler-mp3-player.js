@@ -275,6 +275,7 @@
   // Listen for Jetboost events (if using Jetboost)
   document.addEventListener('jetboost:filterapplied', reInitHowlerPlayer);
   document.addEventListener('jetboost:pagination', reInitHowlerPlayer);
+  document.addEventListener('jetboost:sortapplied', reInitHowlerPlayer); // <-- ADD THIS LINE
 
   // Also re-init on DOMContentLoaded
   document.addEventListener('DOMContentLoaded', reInitHowlerPlayer);
