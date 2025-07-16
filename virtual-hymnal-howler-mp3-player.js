@@ -26,8 +26,20 @@
     if (composerEl) composerEl.textContent = hymn.composer;
     const linkEl = bar.querySelector('[data-howler-info="link"]');
     if (linkEl) {
-      linkEl.href = hymn.slug ? '/hymn-library/' + hymn.slug : '#';
-      linkEl.target = "_blank";
+      const url = hymn.slug ? '/hymn-library/' + hymn.slug : '#';
+      
+      if (linkEl.tagName === 'A') {
+        // It's a link element, set href normally
+        linkEl.href = url;
+        linkEl.target = "_blank";
+      } else if (linkEl.tagName === 'BUTTON') {
+        // It's a button, add click handler for navigation
+        linkEl.onclick = function() {
+          if (url !== '#') {
+            window.open(url, '_blank');
+          }
+        };
+      }
     }
     const progressEl = bar.querySelector('[data-howler-info="progress"]');
     if (progressEl) progressEl.textContent = '0:00';
