@@ -86,6 +86,8 @@
   }
 
   function playHymn(idx) {
+    console.log('🎵 playHymn called with index:', idx);
+    
     if (currentSound) {
       currentSound.unload();
       currentSound = null;
@@ -93,6 +95,8 @@
     currentIndex = idx;
     const hymn = hymnList[idx];
     if (!hymn) return;
+    
+    console.log('📋 About to call updateFixedBar with hymn:', hymn.title);
     updateFixedBar(hymn);
     updateItemStatus(idx, 'playing');
     currentSound = new Howl({
