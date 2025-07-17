@@ -18,47 +18,42 @@
   function updateFixedBar(hymn) {
     const bar = document.querySelector('.fixed-play-bar_container') || 
                 document.querySelector('.fixed-play-bar_wrap');
-    console.log('🎯 Looking for fixed play bar:', bar ? 'FOUND' : 'NOT FOUND');
     
     if (!bar) {
-      // Try alternative selectors
-      const altBar = document.querySelector('[class*="fixed-play-bar"]') || 
-                     document.querySelector('[class*="fixed_play_bar"]');
-      console.log('🔍 Alternative fixed bar search:', altBar ? altBar.className : 'NONE FOUND');
+      console.log('❌ No fixed play bar found');
       return;
     }
-    bar.setAttribute('data-howler-status', 'playing');
+
+    // SHOW THE FIXED PLAYBAR
     bar.style.display = 'flex';
+    bar.setAttribute('data-howler-status', 'playing');
+    
     const titleEl = bar.querySelector('[data-howler-info="title"]');
     if (titleEl) titleEl.textContent = hymn.title;
+    
     const composerEl = bar.querySelector('[data-howler-info="composer"]');
     if (composerEl) composerEl.textContent = hymn.composer;
+    
     const linkEl = bar.querySelector('[data-howler-info="link"]');
     if (linkEl) {
       const url = hymn.slug ? '/hymn-library/' + hymn.slug : '#';
-      console.log('🔗 Setting up explore button:', linkEl.tagName, 'URL:', url);
       
       if (linkEl.tagName === 'A') {
-        // It's a link element, set href normally
         linkEl.href = url;
         linkEl.target = "_blank";
-        console.log('✅ Link href set to:', url);
       } else if (linkEl.tagName === 'BUTTON') {
-        // It's a button, add click handler for navigation
         linkEl.onclick = function(e) {
           e.preventDefault();
-          console.log('🔗 Explore button clicked, navigating to:', url);
           if (url !== '#') {
             window.open(url, '_blank');
           }
         };
-        console.log('✅ Button click handler added for:', url);
       }
-    } else {
-      console.log('❌ No explore button found with [data-howler-info="link"]');
     }
+    
     const progressEl = bar.querySelector('[data-howler-info="progress"]');
     if (progressEl) progressEl.textContent = '0:00';
+    
     const durationEl = bar.querySelector('[data-howler-info="duration"]');
     if (durationEl) durationEl.textContent = '0:00';
 
@@ -67,10 +62,13 @@
       timelineProgress.style.width = '0%';
       timelineProgress.setAttribute('aria-valuenow', '0');
     }
+    
     const mobileBarWrap = bar.querySelector('.fixed-play-bar_play-bar_wrap');
     const mobileBar = bar.querySelector('.fixed-play-bar_play-bar[data-howler-progress-bar]');
     if (mobileBar) mobileBar.style.width = '0%';
     if (mobileBarWrap) mobileBarWrap.setAttribute('aria-valuenow', '0');
+    
+    console.log('✅ Fixed playbar shown and updated');
   }
 
   function updateItemStatus(idx, status) {
@@ -96,9 +94,9 @@
     const hymn = hymnList[idx];
     if (!hymn) return;
     
-    console.log('📋 About to call updateFixedBar with hymn:', hymn.title);
     updateFixedBar(hymn);
     updateItemStatus(idx, 'playing');
+    
     currentSound = new Howl({
       src: [hymn.src],
       html5: true,
@@ -255,18 +253,15 @@
 
   function setupListPlayButtons() {
     hymnList.forEach((hymn, idx) => {
-      // Find the button with data-howler-control="toggle-play" within this hymn element
       const toggleButton = hymn.el.querySelector('[data-howler-control="toggle-play"]');
       
       if (toggleButton) {
-        // Clear existing handler and add new one
         toggleButton.onclick = null;
         toggleButton.onclick = function(e) {
           e.preventDefault();
           e.stopPropagation();
           console.log('🎵 Playing hymn:', idx, hymn.title);
           
-          // Check if this hymn is currently playing
           if (currentSound && currentSound.playing() && currentIndex === idx) {
             currentSound.pause();
           } else {
@@ -277,7 +272,6 @@
     });
   }
 
-  // Set up MutationObserver to watch for DOM changes
   function setupDOMObserver() {
     if (observerActive) return;
     
@@ -290,7 +284,6 @@
       
       mutations.forEach(function(mutation) {
         if (mutation.type === 'childList') {
-          // Check if any nodes with data-howler were added or removed
           mutation.addedNodes.forEach(function(node) {
             if (node.nodeType === 1 && (node.hasAttribute('data-howler') || node.querySelector('[data-howler]'))) {
               shouldReinit = true;
@@ -307,19 +300,16 @@
       
       if (shouldReinit) {
         clearTimeout(timeoutId);
-        timeoutId = setTimeout(reInitHowlerPlayer, 200); // Slightly longer debounce for Jetboost
+        timeoutId = setTimeout(reInitHowlerPlayer, 200);
       }
     });
     
     observer.observe(targetNode, config);
     observerActive = true;
-    console.log('🔍 DOM Observer active on', targetNode.tagName, targetNode.className || '[no classes]');
   }
 
-  // Event delegation for play buttons (backup method)
   function setupEventDelegation() {
     document.body.addEventListener('click', function(e) {
-      // Check if clicked element has the toggle-play data attribute
       if (e.target.closest('[data-howler-control="toggle-play"]')) {
         const toggleButton = e.target.closest('[data-howler-control="toggle-play"]');
         const hymnElement = toggleButton.closest('[data-howler]');
@@ -329,9 +319,7 @@
           if (idx !== -1) {
             e.preventDefault();
             e.stopPropagation();
-            console.log('🎯 Event delegation triggered for hymn:', idx);
             
-            // Check if this hymn is currently playing
             if (currentSound && currentSound.playing() && currentIndex === idx) {
               currentSound.pause();
             } else {
@@ -344,51 +332,40 @@
   }
 
   function reInitHowlerPlayer() {
-    console.log('🎵 Reinitializing Howler Player...');
     const oldCount = hymnList.length;
     hymnList = getHymnList();
     console.log(`Found ${hymnList.length} hymns (was ${oldCount})`);
     setupFixedBarControls();
     setupListPlayButtons();
-    console.log('✅ Howler Player reinitialized');
   }
 
-  // Initialize everything
   function init() {
-    console.log('🚀 Initializing Howler Player...');
     reInitHowlerPlayer();
     setupDOMObserver();
     setupEventDelegation();
     
-    // Listen for Jetboost events - using a more comprehensive approach
     const jetboostEvents = [
       'jetboost:filterapplied',
       'jetboost:pagination', 
       'jetboost:sortapplied',
       'jetboost:searchapplied',
       'jetboost:domupdated',
-      'jetboost:list:updated'  // Additional Jetboost event
+      'jetboost:list:updated'
     ];
     
     jetboostEvents.forEach(eventName => {
       document.addEventListener(eventName, function(e) {
-        console.log(`📡 Jetboost event: ${eventName}`);
-        // Add a small delay to ensure DOM is fully updated
         setTimeout(reInitHowlerPlayer, 100);
       });
     });
-    
-    console.log('✅ Howler Player initialized with Jetboost support');
   }
 
-  // Start when DOM is ready
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', init);
   } else {
     init();
   }
 
-  // Also reinitialize on window load as a fallback
   window.addEventListener('load', function() {
     setTimeout(reInitHowlerPlayer, 500);
   });
