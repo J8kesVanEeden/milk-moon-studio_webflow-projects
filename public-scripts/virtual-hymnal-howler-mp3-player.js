@@ -16,15 +16,15 @@
   }
 
   function updateFixedBar(hymn) {
-    const bar = document.querySelector('.fixed-play-bar_container') || 
-                document.querySelector('.fixed-play-bar_wrap');
+    // FIND THE FIXED PLAYBAR BY ATTRIBUTE
+    const bar = document.querySelector('[data-fixed-playbar]');
     
     if (!bar) {
-      console.log('❌ No fixed play bar found');
+      console.log('❌ No fixed play bar found with [data-fixed-playbar]');
       return;
     }
 
-    // SHOW THE FIXED PLAYBAR
+    // SHOW THE FIXED PLAYBAR - CHANGE FROM DISPLAY NONE TO FLEX
     bar.style.display = 'flex';
     bar.setAttribute('data-howler-status', 'playing');
     
@@ -71,6 +71,14 @@
     console.log('✅ Fixed playbar shown and updated');
   }
 
+  function hideFixedBar() {
+    const bar = document.querySelector('[data-fixed-playbar]');
+    if (bar) {
+      bar.style.display = 'none';
+      bar.setAttribute('data-howler-status', 'not-playing');
+    }
+  }
+
   function updateItemStatus(idx, status) {
     hymnList.forEach((hymn, i) => {
       hymn.el.setAttribute('data-howler-status', i === idx && status === 'playing' ? 'playing' : 'not-playing');
@@ -102,37 +110,23 @@
       html5: true,
       onplay: function() {
         updateProgress();
-        const bar = document.querySelector('.fixed-play-bar_container') || 
-                    document.querySelector('.fixed-play-bar_wrap');
+        const bar = document.querySelector('[data-fixed-playbar]');
         if (bar) bar.setAttribute('data-howler-status', 'playing');
         updateItemStatus(idx, 'playing');
       },
       onpause: function() {
-        const bar = document.querySelector('.fixed-play-bar_container') || 
-                    document.querySelector('.fixed-play-bar_wrap');
+        const bar = document.querySelector('[data-fixed-playbar]');
         if (bar) bar.setAttribute('data-howler-status', 'not-playing');
         updateItemStatus(idx, 'not-playing');
       },
       onend: function() {
-        const bar = document.querySelector('.fixed-play-bar_container') || 
-                    document.querySelector('.fixed-play-bar_wrap');
+        const bar = document.querySelector('[data-fixed-playbar]');
         if (bar) bar.setAttribute('data-howler-status', 'not-playing');
         updateItemStatus(idx, 'not-playing');
-        if (bar) {
-          const timelineProgress = bar.querySelector('.howler-player__timeline-progress[data-howler-control="progress"]');
-          if (timelineProgress) {
-            timelineProgress.style.width = '0%';
-            timelineProgress.setAttribute('aria-valuenow', '0');
-          }
-          const mobileBarWrap = bar.querySelector('.fixed-play-bar_play-bar_wrap');
-          const mobileBar = bar.querySelector('.fixed-play-bar_play-bar[data-howler-progress-bar]');
-          if (mobileBar) mobileBar.style.width = '0%';
-          if (mobileBarWrap) mobileBarWrap.setAttribute('aria-valuenow', '0');
-        }
+        hideFixedBar();
       },
       onload: function() {
-        const bar = document.querySelector('.fixed-play-bar_container') || 
-                    document.querySelector('.fixed-play-bar_wrap');
+        const bar = document.querySelector('[data-fixed-playbar]');
         if (bar) {
           const durationEl = bar.querySelector('[data-howler-info="duration"]');
           if (durationEl) durationEl.textContent = formatTime(currentSound.duration());
@@ -145,8 +139,7 @@
 
     function updateProgress() {
       if (!currentSound || !currentSound.playing()) return;
-      const bar = document.querySelector('.fixed-play-bar_container') || 
-                  document.querySelector('.fixed-play-bar_wrap');
+      const bar = document.querySelector('[data-fixed-playbar]');
       if (!bar) return;
       
       const current = currentSound.seek() || 0;
@@ -209,7 +202,7 @@
   }
 
   function setupTimelineSeek() {
-    const bar = document.querySelector('.fixed-play-bar_wrap');
+    const bar = document.querySelector('[data-fixed-playbar]');
     if (!bar) return;
 
     const timeline = bar.querySelector('.howler-player__timeline[data-howler-control="timeline"]');
@@ -240,8 +233,7 @@
   }
 
   function setupFixedBarControls() {
-    const bar = document.querySelector('.fixed-play-bar_container') || 
-                document.querySelector('.fixed-play-bar_wrap');
+    const bar = document.querySelector('[data-fixed-playbar]');
     if (!bar) return;
     bar.querySelectorAll('[data-howler-control="toggle-play"]').forEach(btn => btn.onclick = togglePlayPause);
     bar.querySelectorAll('[data-howler-control="next"]').forEach(btn => btn.onclick = playNext);
