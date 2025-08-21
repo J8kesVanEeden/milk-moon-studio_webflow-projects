@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Workplace Creations - Website Sitemap</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 40px 20px;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 40px;
+            font-size: 32px;
+        }
+        
+        .sitemap {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .level {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 40px;
+            position: relative;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        
+        .node {
+            background: white;
+            border: 2px solid #667eea;
+            border-radius: 10px;
+            padding: 12px 20px;
+            text-align: center;
+            position: relative;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            min-width: 150px;
+        }
+        
+        .node:hover {
+            background: #667eea;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+        
+        .node.home {
+            background: #667eea;
+            color: white;
+            font-weight: bold;
+            font-size: 18px;
+            padding: 15px 30px;
+        }
+        
+        .node.category {
+            background: #f3f4f6;
+            border-color: #9ca3af;
+            font-weight: 600;
+        }
+        
+        .node.template {
+            background: #fef3c7;
+            border-color: #fbbf24;
+            font-size: 14px;
+        }
+        
+        .node.cms {
+            background: #dbeafe;
+            border-color: #3b82f6;
+            font-size: 14px;
+        }
+        
+        .connector {
+            position: absolute;
+            width: 2px;
+            background: #9ca3af;
+            z-index: -1;
+        }
+        
+        .horizontal-connector {
+            height: 2px;
+            background: #9ca3af;
+            position: absolute;
+            top: -20px;
+        }
+        
+        .legend {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #e5e7eb;
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .legend-box {
+            width: 20px;
+            height: 20px;
+            border-radius: 4px;
+            border: 2px solid;
+        }
+        
+        .sublevel {
+            margin-top: 20px;
+            padding-left: 40px;
+            border-left: 2px solid #e5e7eb;
+        }
+        
+        .section {
+            margin-bottom: 60px;
+        }
+        
+        .section-title {
+            font-size: 20px;
+            font-weight: bold;
+            color: #374151;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Workplace Creations - Website Sitemap</h1>
+        
+        <div class="sitemap">
+            <!-- Homepage -->
+            <div class="level">
+                <div class="node home">Homepage</div>
+            </div>
+            
+            <!-- Main Navigation -->
+            <div class="level">
+                <div class="node category">Projects</div>
+                <div class="node category">Services</div>
+                <div class="node category">About</div>
+                <div class="node category">Insights</div>
+            </div>
+            
+            <!-- Projects Section -->
+            <div class="section">
+                <div class="section-title">Projects Structure</div>
+                <div class="level">
+                    <div class="node template">Projects Main<br>(Filter Page)</div>
+                    <div class="node cms">Project Detail Template<br>(CMS - 18+ Projects)</div>
+                </div>
+            </div>
+            
+            <!-- Services Section -->
+            <div class="section">
+                <div class="section-title">Services Structure</div>
+                <div class="level">
+                    <div class="node template">Services Main</div>
+                </div>
+                <div class="level">
+                    <div class="node category">Design</div>
+                    <div class="node category">Build</div>
+                    <div class="node category">Maintain</div>
+                    <div class="node category">WPC Core</div>
+                    <div class="node category">Furniture Studio</div>
+                </div>
+                <div class="level">
+                    <div class="node cms">Interior Design</div>
+                    <div class="node cms">Technical Design</div>
+                    <div class="node cms">Workplace Consultancy</div>
+                    <div class="node cms">Strategic Planning</div>
+                    <div class="node cms">Project Management</div>
+                    <div class="node cms">Category B</div>
+                    <div class="node cms">Category A+</div>
+                    <div class="node cms">Category A</div>
+                </div>
+            </div>
+            
+            <!-- About Section -->
+            <div class="section">
+                <div class="section-title">About Structure</div>
+                <div class="level">
+                    <div class="node template">About Main</div>
+                </div>
+                <div class="level">
+                    <div class="node cms">Our Philosophy</div>
+                    <div class="node cms">Our People</div>
+                    <div class="node cms">Awards & Accreditations</div>
+                    <div class="node cms">Sustainability & ESG</div>
+                    <div class="node cms">Health & Safety</div>
+                    <div class="node cms">Partners</div>
+                    <div class="node cms">Locations</div>
+                </div>
+            </div>
+            
+            <!-- Insights Section -->
+            <div class="section">
+                <div class="section-title">Insights Structure</div>
+                <div class="level">
+                    <div class="node template">Insights Main</div>
+                </div>
+                <div class="level">
+                    <div class="node category">Perspective</div>
+                    <div class="node category">Journal</div>
+                    <div class="node category">Press</div>
+                </div>
+                <div class="level">
+                    <div class="node cms">Long-form Posts</div>
+                    <div class="node cms">Short-form Posts</div>
+                    <div class="node cms">Press Articles</div>
+                </div>
+            </div>
+            
+            <!-- Footer/Legal -->
+            <div class="section">
+                <div class="section-title">Legal Pages</div>
+                <div class="level">
+                    <div class="node template">Cookie Policy</div>
+                    <div class="node template">Privacy Policy</div>
+                    <div class="node template">Terms & Conditions</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="legend">
+            <div class="legend-item">
+                <div class="legend-box" style="background: #667eea; border-color: #667eea;"></div>
+                <span>Homepage</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-box" style="background: #f3f4f6; border-color: #9ca3af;"></div>
+                <span>Main Categories</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-box" style="background: #fef3c7; border-color: #fbbf24;"></div>
+                <span>Page Templates</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-box" style="background: #dbeafe; border-color: #3b82f6;"></div>
+                <span>CMS/Dynamic Content</span>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
