@@ -38,6 +38,45 @@
   font-display: swap;
 }
 @font-face {
+  font-family: 'Labgrotesque';
+  src: url('https://cdn.jsdelivr.net/gh/J8kesVanEeden/milk-moon-studio_webflow-projects@main/fonts/labgrotesque/LabGrotesque-Regular.eot');
+  src: url('https://cdn.jsdelivr.net/gh/J8kesVanEeden/milk-moon-studio_webflow-projects@main/fonts/labgrotesque/LabGrotesque-Regular.eot?#iefix') format('embedded-opentype'),
+       url('https://cdn.jsdelivr.net/gh/J8kesVanEeden/milk-moon-studio_webflow-projects@main/fonts/labgrotesque/LabGrotesque-Regular.woff2') format('woff2'),
+       url('https://cdn.jsdelivr.net/gh/J8kesVanEeden/milk-moon-studio_webflow-projects@main/fonts/labgrotesque/LabGrotesque-Regular.woff') format('woff'),
+       url('https://cdn.jsdelivr.net/gh/J8kesVanEeden/milk-moon-studio_webflow-projects@main/fonts/labgrotesque/LabGrotesque-Regular.ttf') format('truetype'),
+       url('https://cdn.jsdelivr.net/gh/J8kesVanEeden/milk-moon-studio_webflow-projects@main/fonts/labgrotesque/LabGrotesque-Regular.svg#LabGrotesque-Regular') format('svg'),
+       url('https://cdn.jsdelivr.net/gh/J8kesVanEeden/milk-moon-studio_webflow-projects@main/fonts/labgrotesque/LabGrotesque-Regular.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Labgrotesque';
+  src: url('https://cdn.jsdelivr.net/gh/J8kesVanEeden/milk-moon-studio_webflow-projects@main/fonts/labgrotesque/LabGrotesque-Medium.eot');
+  src: url('https://cdn.jsdelivr.net/gh/J8kesVanEeden/milk-moon-studio_webflow-projects@main/fonts/labgrotesque/LabGrotesque-Medium.eot?#iefix') format('embedded-opentype'),
+       url('https://cdn.jsdelivr.net/gh/J8kesVanEeden/milk-moon-studio_webflow-projects@main/fonts/labgrotesque/LabGrotesque-Medium.woff2') format('woff2'),
+       url('https://cdn.jsdelivr.net/gh/J8kesVanEeden/milk-moon-studio_webflow-projects@main/fonts/labgrotesque/LabGrotesque-Medium.woff') format('woff'),
+       url('https://cdn.jsdelivr.net/gh/J8kesVanEeden/milk-moon-studio_webflow-projects@main/fonts/labgrotesque/LabGrotesque-Medium.ttf') format('truetype'),
+       url('https://cdn.jsdelivr.net/gh/J8kesVanEeden/milk-moon-studio_webflow-projects@main/fonts/labgrotesque/LabGrotesque-Medium.svg#LabGrotesque-Medium') format('svg'),
+       url('https://cdn.jsdelivr.net/gh/J8kesVanEeden/milk-moon-studio_webflow-projects@main/fonts/labgrotesque/LabGrotesque-Medium.otf') format('opentype');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Labgrotesque';
+  src: url('https://cdn.jsdelivr.net/gh/J8kesVanEeden/milk-moon-studio_webflow-projects@main/fonts/labgrotesque/LabGrotesque-Bold.eot');
+  src: url('https://cdn.jsdelivr.net/gh/J8kesVanEeden/milk-moon-studio_webflow-projects@main/fonts/labgrotesque/LabGrotesque-Bold.eot?#iefix') format('embedded-opentype'),
+       url('https://cdn.jsdelivr.net/gh/J8kesVanEeden/milk-moon-studio_webflow-projects@main/fonts/labgrotesque/LabGrotesque-Bold.woff2') format('woff2'),
+       url('https://cdn.jsdelivr.net/gh/J8kesVanEeden/milk-moon-studio_webflow-projects@main/fonts/labgrotesque/LabGrotesque-Bold.woff') format('woff'),
+       url('https://cdn.jsdelivr.net/gh/J8kesVanEeden/milk-moon-studio_webflow-projects@main/fonts/labgrotesque/LabGrotesque-Bold.ttf') format('truetype'),
+       url('https://cdn.jsdelivr.net/gh/J8kesVanEeden/milk-moon-studio_webflow-projects@main/fonts/labgrotesque/LabGrotesque-Bold.svg#LabGrotesque-Bold') format('svg'),
+       url('https://cdn.jsdelivr.net/gh/J8kesVanEeden/milk-moon-studio_webflow-projects@main/fonts/labgrotesque/LabGrotesque-Bold.otf') format('opentype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
   font-family: 'Frequenz';
   src: url('https://cdn.jsdelivr.net/gh/J8kesVanEeden/milk-moon-studio_webflow-projects@main/fonts/frequenz/Frequenz-Regular.eot');
   src: url('https://cdn.jsdelivr.net/gh/J8kesVanEeden/milk-moon-studio_webflow-projects@main/fonts/frequenz/Frequenz-Regular.eot?#iefix') format('embedded-opentype'),
