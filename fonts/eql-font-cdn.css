@@ -89,3 +89,55 @@
   font-style: normal;
   font-display: swap;
 }
+@font-face {
+  font-family: 'Frequenz W';
+  src: url('https://cdn.jsdelivr.net/gh/J8kesVanEeden/milk-moon-studio_webflow-projects@main/fonts/frequenz/Frequenz-Regular.eot');
+  src: url('https://cdn.jsdelivr.net/gh/J8kesVanEeden/milk-moon-studio_webflow-projects@main/fonts/frequenz/Frequenz-Regular.eot?#iefix') format('embedded-opentype'),
+       url('https://cdn.jsdelivr.net/gh/J8kesVanEeden/milk-moon-studio_webflow-projects@main/fonts/frequenz/Frequenz-Regular.woff2') format('woff2'),
+       url('https://cdn.jsdelivr.net/gh/J8kesVanEeden/milk-moon-studio_webflow-projects@main/fonts/frequenz/Frequenz-Regular.woff') format('woff'),
+       url('https://cdn.jsdelivr.net/gh/J8kesVanEeden/milk-moon-studio_webflow-projects@main/fonts/frequenz/Frequenz-Regular.ttf') format('truetype'),
+       url('https://cdn.jsdelivr.net/gh/J8kesVanEeden/milk-moon-studio_webflow-projects@main/fonts/frequenz/Frequenz-Regular.svg#Frequenz-Regular') format('svg'),
+       url('https://cdn.jsdelivr.net/gh/J8kesVanEeden/milk-moon-studio_webflow-projects@main/fonts/frequenz/Frequenz-Regular.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Frequenz W';
+  src: url('https://cdn.jsdelivr.net/gh/J8kesVanEeden/milk-moon-studio_webflow-projects@main/fonts/frequenz/Frequenz-Medium.eot');
+  src: url('https://cdn.jsdelivr.net/gh/J8kesVanEeden/milk-moon-studio_webflow-projects@main/fonts/frequenz/Frequenz-Medium.eot?#iefix') format('embedded-opentype'),
+       url('https://cdn.jsdelivr.net/gh/J8kesVanEeden/milk-moon-studio_webflow-projects@main/fonts/frequenz/Frequenz-Medium.woff2') format('woff2'),
+       url('https://cdn.jsdelivr.net/gh/J8kesVanEeden/milk-moon-studio_webflow-projects@main/fonts/frequenz/Frequenz-Medium.woff') format('woff'),
+       url('https://cdn.jsdelivr.net/gh/J8kesVanEeden/milk-moon-studio_webflow-projects@main/fonts/frequenz/Frequenz-Medium.ttf') format('truetype'),
+       url('https://cdn.jsdelivr.net/gh/J8kesVanEeden/milk-moon-studio_webflow-projects@main/fonts/frequenz/Frequenz-Medium.svg#Frequenz-Medium') format('svg'),
+       url('https://cdn.jsdelivr.net/gh/J8kesVanEeden/milk-moon-studio_webflow-projects@main/fonts/frequenz/Frequenz-Medium.otf') format('opentype');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Frequenz W';
+  src: url('https://cdn.jsdelivr.net/gh/J8kesVanEeden/milk-moon-studio_webflow-projects@main/fonts/frequenz/Frequenz-Bold.eot');
+  src: url('https://cdn.jsdelivr.net/gh/J8kesVanEeden/milk-moon-studio_webflow-projects@main/fonts/frequenz/Frequenz-Bold.eot?#iefix') format('embedded-opentype'),
+       url('https://cdn.jsdelivr.net/gh/J8kesVanEeden/milk-moon-studio_webflow-projects@main/fonts/frequenz/Frequenz-Bold.woff2') format('woff2'),
+       url('https://cdn.jsdelivr.net/gh/J8kesVanEeden/milk-moon-studio_webflow-projects@main/fonts/frequenz/Frequenz-Bold.woff') format('woff'),
+       url('https://cdn.jsdelivr.net/gh/J8kesVanEeden/milk-moon-studio_webflow-projects@main/fonts/frequenz/Frequenz-Bold.ttf') format('truetype'),
+       url('https://cdn.jsdelivr.net/gh/J8kesVanEeden/milk-moon-studio_webflow-projects@main/fonts/frequenz/Frequenz-Bold.svg#Frequenz-Bold') format('svg'),
+       url('https://cdn.jsdelivr.net/gh/J8kesVanEeden/milk-moon-studio_webflow-projects@main/fonts/frequenz/Frequenz-Bold.otf') format('opentype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Frequenz W';
+  src: url('https://cdn.jsdelivr.net/gh/J8kesVanEeden/milk-moon-studio_webflow-projects@main/fonts/frequenz/Frequenz-Light.eot');
+  src: url('https://cdn.jsdelivr.net/gh/J8kesVanEeden/milk-moon-studio_webflow-projects@main/fonts/frequenz/Frequenz-Light.eot?#iefix') format('embedded-opentype'),
+       url('https://cdn.jsdelivr.net/gh/J8kesVanEeden/milk-moon-studio_webflow-projects@main/fonts/frequenz/Frequenz-Light.woff2') format('woff2'),
+       url('https://cdn.jsdelivr.net/gh/J8kesVanEeden/milk-moon-studio_webflow-projects@main/fonts/frequenz/Frequenz-Light.woff') format('woff'),
+       url('https://cdn.jsdelivr.net/gh/J8kesVanEeden/milk-moon-studio_webflow-projects@main/fonts/frequenz/Frequenz-Light.ttf') format('truetype'),
+       url('https://cdn.jsdelivr.net/gh/J8kesVanEeden/milk-moon-studio_webflow-projects@main/fonts/frequenz/Frequenz-Light.svg#Frequenz-Light') format('svg'),
+       url('https://cdn.jsdelivr.net/gh/J8kesVanEeden/milk-moon-studio_webflow-projects@main/fonts/frequenz/Frequenz-Light.otf') format('opentype');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
