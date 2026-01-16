@@ -262,6 +262,6 @@
   .hs-form input[type="email"],
   .hs-form select,
   .hs-form textarea {
-    font-size: 1rem !important; /* Prevents zoom on iOS */
+    font-size: 0.875rem !important; /* 14px - matches desktop */
   }
 }
