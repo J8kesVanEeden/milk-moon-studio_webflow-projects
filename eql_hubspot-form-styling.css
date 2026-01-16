@@ -66,8 +66,12 @@
 }
 
 /* Placeholder */
-.hs-form ::placeholder,
-.hsfc-Form ::placeholder,
+.hs-form input::placeholder,
+.hs-form textarea::placeholder,
+.hs-form select::placeholder,
+.hsfc-Form input::placeholder,
+.hsfc-Form textarea::placeholder,
+.hsfc-Form select::placeholder,
 .hsfc-TextInput::placeholder {
   color: #000000 !important;
   opacity: 1 !important;
