@@ -112,8 +112,7 @@
   font-size: inherit !important;
   font-weight: 700 !important;
   text-transform: uppercase !important;
-  padding: 0.75rem 1.5rem 0.75rem 1.5rem !important;
-  padding-right: 3rem !important; /* Extra space for arrow */
+  padding: 0.75rem 1.5rem !important;
   cursor: pointer !important;
   transition: all 200ms ease !important;
   -webkit-appearance: none !important;
@@ -124,19 +123,6 @@
   align-items: center !important;
 }
 
-/* Arrow after button text */
-.hs-form .hs-button::after,
-.hs-form input[type="submit"]::after,
-.hs-form button[type="submit"]::after,
-.hsfc-Button::after,
-.hsfc-Form .hsfc-Button::after,
-.hsfc-NavigationRow .hsfc-Button::after {
-  content: "→" !important;
-  position: absolute !important;
-  right: 1.5rem !important;
-  font-size: 1.2em !important;
-  line-height: 1 !important;
-}
 
 .hs-form .hs-button:hover,
 .hs-form input[type="submit"]:hover,
