@@ -1,0 +1,272 @@
+/* ============================================
+   HUBSPOT FORM STYLING - EQL
+   Works with Developer Code embed (removes iframe)
+   Supports BOTH Legacy (.hs-form) AND New (hsfc-*) Forms
+   ============================================ */
+
+/* Form Container - Legacy */
+.hs-form,
+.hbspt-form {
+  width: 100% !important;
+}
+
+/* Form Container - New Forms (hsfc-*) */
+.hsfc-Form,
+.hsfc-FormWrapper {
+  width: 100% !important;
+}
+
+/* Input Fields - 2px bottom border only */
+/* Legacy Forms */
+.hs-form input[type="text"],
+.hs-form input[type="email"],
+.hs-form input[type="tel"],
+.hs-form input[type="number"],
+.hs-form .hs-input,
+.hs-form select,
+.hs-form textarea,
+/* New Forms (hsfc-*) */
+.hsfc-TextInput,
+.hsfc-Form input[type="text"],
+.hsfc-Form input[type="email"],
+.hsfc-Form input[type="tel"],
+.hsfc-Form input[type="number"],
+.hsfc-Form select,
+.hsfc-Form textarea {
+  border: none !important;
+  border-bottom: 2px solid #000000 !important; /* 2px bottom stroke only */
+  border-radius: 0 !important;
+  background-color: transparent !important;
+  color: #000000 !important;
+  font-family: inherit !important;
+  font-size: inherit !important;
+  font-weight: 400 !important;
+  padding: 0.75rem 0 !important;
+  width: 100% !important;
+  -webkit-appearance: none !important;
+  -moz-appearance: none !important;
+  appearance: none !important;
+}
+
+.hs-form input:focus,
+.hs-form select:focus,
+.hs-form textarea:focus,
+.hsfc-TextInput:focus,
+.hsfc-Form input:focus,
+.hsfc-Form select:focus,
+.hsfc-Form textarea:focus {
+  border-bottom: 2px solid #000000 !important;
+  outline: none !important;
+}
+
+/* Textarea */
+.hs-form textarea {
+  min-height: 5rem !important;
+  resize: vertical !important;
+}
+
+/* Placeholder */
+.hs-form ::placeholder,
+.hsfc-Form ::placeholder,
+.hsfc-TextInput::placeholder {
+  color: #000000 !important;
+  opacity: 0.7 !important;
+  font-family: inherit !important;
+}
+
+/* Labels */
+.hs-form label,
+.hsfc-FieldLabel,
+.hsfc-Form .hsfc-FieldLabel {
+  font-family: inherit !important;
+  color: #000000 !important;
+  font-size: inherit !important;
+  font-weight: 400 !important;
+  margin-bottom: 0.5rem !important;
+}
+
+/* Buttons - Match "Get a demo" button: Yellow, 2px black stroke, 0 radius, arrow, correct font */
+/* Legacy Forms */
+.hs-form .hs-button,
+.hs-form input[type="submit"],
+.hs-form button[type="submit"],
+.hs_submit .actions input,
+/* New Forms (hsfc-*) */
+.hsfc-Button,
+.hsfc-Form .hsfc-Button,
+.hsfc-NavigationRow .hsfc-Button {
+  position: relative !important;
+  background-color: #FFD700 !important; /* Yellow - adjust to match exact nav button */
+  color: #000000 !important;
+  border: 2px solid #000000 !important; /* 2px stroke */
+  border-radius: 0 !important; /* 0 radius */
+  font-family: "Aeonik", sans-serif !important; /* Match nav button font - adjust if different */
+  font-size: inherit !important;
+  font-weight: 400 !important;
+  padding: 0.75rem 1.5rem 0.75rem 1.5rem !important;
+  padding-right: 3rem !important; /* Extra space for arrow */
+  cursor: pointer !important;
+  transition: all 200ms ease !important;
+  -webkit-appearance: none !important;
+  -moz-appearance: none !important;
+  appearance: none !important;
+  text-align: left !important;
+  display: inline-flex !important;
+  align-items: center !important;
+}
+
+/* Arrow after button text */
+.hs-form .hs-button::after,
+.hs-form input[type="submit"]::after,
+.hs-form button[type="submit"]::after,
+.hsfc-Button::after,
+.hsfc-Form .hsfc-Button::after,
+.hsfc-NavigationRow .hsfc-Button::after {
+  content: "→" !important;
+  position: absolute !important;
+  right: 1.5rem !important;
+  font-size: 1.2em !important;
+  line-height: 1 !important;
+}
+
+.hs-form .hs-button:hover,
+.hs-form input[type="submit"]:hover,
+.hsfc-Button:hover,
+.hsfc-Form .hsfc-Button:hover {
+  background-color: #FFD700 !important; /* Keep yellow on hover */
+  opacity: 0.9 !important;
+}
+
+/* Checkboxes - Square, 2px stroke */
+.hs-form input[type="checkbox"],
+.hsfc-CheckboxInput,
+.hsfc-Form input[type="checkbox"] {
+  width: 1.25rem !important;
+  height: 1.25rem !important;
+  border: 2px solid #000000 !important;
+  border-radius: 0 !important; /* Square */
+  background-color: transparent !important;
+  -webkit-appearance: none !important;
+  -moz-appearance: none !important;
+  appearance: none !important;
+  position: relative !important;
+  margin-right: 0.75rem !important;
+  cursor: pointer !important;
+}
+
+.hs-form input[type="checkbox"]:checked,
+.hsfc-CheckboxInput:checked,
+.hsfc-Form input[type="checkbox"]:checked {
+  background-color: #000000 !important;
+  border-color: #000000 !important;
+}
+
+.hs-form input[type="checkbox"]:checked::after,
+.hsfc-CheckboxInput:checked::after,
+.hsfc-Form input[type="checkbox"]:checked::after {
+  content: '✓' !important;
+  position: absolute !important;
+  top: 50% !important;
+  left: 50% !important;
+  transform: translate(-50%, -50%) !important;
+  color: #ffffff !important;
+  font-size: 0.875rem !important;
+  font-weight: bold !important;
+}
+
+/* Radio Buttons - Round, 2px stroke */
+.hs-form input[type="radio"],
+.hsfc-RadioInput,
+.hsfc-Form input[type="radio"] {
+  width: 1.25rem !important;
+  height: 1.25rem !important;
+  border: 2px solid #000000 !important;
+  border-radius: 50% !important; /* Round */
+  background-color: transparent !important;
+  -webkit-appearance: none !important;
+  -moz-appearance: none !important;
+  appearance: none !important;
+  position: relative !important;
+  margin-right: 0.75rem !important;
+  cursor: pointer !important;
+}
+
+.hs-form input[type="radio"]:checked,
+.hsfc-RadioInput:checked,
+.hsfc-Form input[type="radio"]:checked {
+  background-color: #000000 !important;
+  border-color: #000000 !important;
+}
+
+.hs-form input[type="radio"]:checked::after,
+.hsfc-RadioInput:checked::after,
+.hsfc-Form input[type="radio"]:checked::after {
+  content: '' !important;
+  position: absolute !important;
+  top: 50% !important;
+  left: 50% !important;
+  transform: translate(-50%, -50%) !important;
+  width: 0.5rem !important;
+  height: 0.5rem !important;
+  border-radius: 50% !important;
+  background-color: #ffffff !important;
+}
+
+/* Field Groups */
+.hs-form .hs-form-field,
+.hsfc-TextField,
+.hsfc-EmailField,
+.hsfc-DropdownField,
+.hsfc-CheckboxField,
+.hsfc-RadioField {
+  margin-bottom: 1rem !important;
+}
+
+.hs-form fieldset,
+.hsfc-Form fieldset {
+  border: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+/* Lists */
+.hs-form ul,
+.hsfc-Form ul,
+.hsfc-CheckboxFieldGroup__Options {
+  list-style: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+/* Multistep Forms - Navigation Buttons */
+.hsfc-NavigationRow__Buttons {
+  display: flex !important;
+  gap: 1rem !important;
+  margin-top: 1.5rem !important;
+}
+
+/* Error Messages */
+.hs-form .hs-error-msgs {
+  color: #ff0000 !important;
+  font-size: 0.875rem !important;
+  margin-top: 0.5rem !important;
+}
+
+.hs-form .hs-error-msgs label {
+  color: #ff0000 !important;
+}
+
+/* Hide ReCaptcha */
+.hs-form .hs-recaptcha {
+  display: none !important;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .hs-form input[type="text"],
+  .hs-form input[type="email"],
+  .hs-form select,
+  .hs-form textarea {
+    font-size: 16px !important; /* Prevents zoom on iOS */
+  }
+}
