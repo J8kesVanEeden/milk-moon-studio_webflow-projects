@@ -3,11 +3,7 @@
  * CLOUDFLARE WORKER: IMAGE OPTIMIZATION FOR WEBFLOW
  * ============================================
  * 
- * Version: 4.3 (Production-Ready)
- *  
- * Copyright (c) 2025 Milk Moon Studio
- * Licensed under the MIT License
- * See LICENSE file for full license text
+ * Version: 4.3 (Production-Ready) - WITH FINSWEET FIXES
  * 
  * WHAT THIS DOES:
  * 
@@ -34,6 +30,7 @@
  *    - Rewrites Webflow CDN asset URLs to use /asset-cache/ proxy
  *    - Caches assets on your domain for fast edge delivery
  *    - Handles CORS for cross-origin usage
+ *    - EXCLUDES: Finsweet Attributes script and Webflow internal JavaScript chunks
  * 
  * 5. Caching Strategy:
  *    - HTML responses: Cached at Cloudflare edge
@@ -44,6 +41,10 @@
  * 
  * NOTE: Cache Reserve is NOT available when using O2O (Origin-to-Origin) proxying.
  * Webflow uses O2O, so all assets cache at Cloudflare edge only (not R2-backed Cache Reserve).
+ * 
+ * FIXES APPLIED:
+ * - Finsweet Attributes script is excluded from transformation (preserves custom attributes)
+ * - Webflow internal JavaScript chunks (/dist/chunk-*.js) are excluded from transformation
  * 
  * CONFIGURATION:
  * 
@@ -724,11 +725,42 @@ function transformLinkTags(html, config, domainInfo) {
 
 /**
  * Transform <script> tags (JavaScript)
+ * Excludes Finsweet Attributes script and Webflow internal JavaScript chunks
  */
 function transformScriptTags(html, config, domainInfo) {
   return html.replace(
     /(<script\b[^>]*\s)(src\s*=\s*)(["'])([^"']*)\3/gi,
     (match, tagStart, attrName, quote, url) => {
+      // Skip Finsweet Attributes script - preserve all attributes exactly as they are
+      // Finsweet script uses custom attributes (fs-list, fs-inject, etc.) that must not be modified
+      if (url.includes('@finsweet/attributes') || url.includes('finsweet')) {
+        return match; // Return unchanged
+      }
+      
+      // Skip Webflow's internal JavaScript chunks - these must load directly from Webflow CDN
+      // These are core site functionality files that can't be proxied
+      // Parse URL to check pathname (handles query strings and hash fragments correctly)
+      try {
+        // Only parse if it's a full URL (starts with http:// or https://)
+        if (url.startsWith('http://') || url.startsWith('https://')) {
+          const parsed = new URL(url);
+          if (parsed.pathname.includes('/dist/chunk-') || 
+              (parsed.pathname.includes('/dist/') && parsed.pathname.endsWith('.js'))) {
+            return match; // Return unchanged
+          }
+        } else {
+          // For relative URLs, check the string directly
+          if (url.includes('/dist/chunk-') || (url.includes('/dist/') && url.endsWith('.js'))) {
+            return match; // Return unchanged
+          }
+        }
+      } catch {
+        // If URL parsing fails, fall back to string check
+        if (url.includes('/dist/chunk-') || (url.includes('/dist/') && url.endsWith('.js'))) {
+          return match; // Return unchanged
+        }
+      }
+      
       const transformed = transformAssetUrl(url, config, domainInfo);
       return tagStart + attrName + quote + transformed + quote;
     }
@@ -905,6 +937,12 @@ function transformAssetUrl(url, config, domainInfo) {
   
   // Skip if not Webflow origin and not in catch-all mode
   if (!isWebflowOrigin && !config.CATCH_ALL_EXTERNAL) {
+    return url;
+  }
+  
+  // Skip Webflow's internal JavaScript chunks - these must load directly from Webflow CDN
+  // These are core site functionality files that can't be proxied (e.g., /dist/chunk-*.js)
+  if (parsed.pathname.includes('/dist/chunk-') || (parsed.pathname.includes('/dist/') && parsed.pathname.endsWith('.js'))) {
     return url;
   }
   
