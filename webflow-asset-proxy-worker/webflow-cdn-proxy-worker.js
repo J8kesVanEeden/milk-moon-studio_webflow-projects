@@ -4,6 +4,10 @@
  * ============================================
  * 
  * Version: 4.3 (Production-Ready)
+ *  
+ * Copyright (c) 2025 Milk Moon Studio
+ * Licensed under the MIT License
+ * See LICENSE file for full license text
  * 
  * WHAT THIS DOES:
  * 
