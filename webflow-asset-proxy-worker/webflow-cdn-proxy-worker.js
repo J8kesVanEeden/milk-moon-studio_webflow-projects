@@ -3,7 +3,7 @@
  * CLOUDFLARE WORKER: IMAGE OPTIMIZATION FOR WEBFLOW
  * ============================================
  * 
- * Version: 4.3 (Production-Ready) - WITH FINSWEET FIXES
+ * Version: 4.3 (Production-Ready) - WITH FINSWEET FIXES + BUG FIXES
  * 
  * WHAT THIS DOES:
  * 
@@ -45,6 +45,8 @@
  * FIXES APPLIED:
  * - Finsweet Attributes script is excluded from transformation (preserves custom attributes)
  * - Webflow internal JavaScript chunks (/dist/chunk-*.js) are excluded from transformation
+ * - Response status check before transforming (prevents transforming error pages)
+ * - Error handling in transformHtmlResponse (prevents worker crashes)
  * 
  * CONFIGURATION:
  * 
@@ -106,7 +108,7 @@
  * Caching:
  * - HTML responses: Cached at Cloudflare edge
  * - Original images (/img-original/): Cached at Cloudflare edge
- * - Transformed images (/cdn-cgi/image/): Cached at edge via Image Resizing
+ * - Transformed images (/cdn-cgi/image/): Cached at edge via Cloudflare Image Resizing
  * - AVIF images (/img-cache/): Cached at Cloudflare edge
  * - Proxied assets (/asset-cache/): Cached at Cloudflare edge
  * 
@@ -226,6 +228,12 @@ async function handleRequest(request, env, ctx) {
         cacheTtl: config.EDGE_CACHE_TTL,
       }
     });
+    
+    // Check if response is OK before transforming
+    // Don't try to transform error pages (404, 500, etc.)
+    if (!response.ok) {
+      return response;
+    }
     
     // Only transform HTML responses
     const contentType = response.headers.get('Content-Type') || '';
@@ -389,16 +397,22 @@ async function transformHtmlResponse(response, config) {
     return createResponse(html, response);
   }
   
-  // Build domain info for self-reference checks
-  const domainInfo = buildDomainInfo(config.DOMAIN);
-  
-  // Transform all image URLs
-  html = transformAllImageUrls(html, config, domainInfo);
-  
-  // Transform all asset URLs (CSS, JS, fonts, icons)
-  html = transformAllAssetUrls(html, config, domainInfo);
-  
-  return createResponse(html, response);
+  try {
+    // Build domain info for self-reference checks
+    const domainInfo = buildDomainInfo(config.DOMAIN);
+    
+    // Transform all image URLs
+    html = transformAllImageUrls(html, config, domainInfo);
+    
+    // Transform all asset URLs (CSS, JS, fonts, icons)
+    html = transformAllAssetUrls(html, config, domainInfo);
+    
+    return createResponse(html, response);
+  } catch (transformError) {
+    // If transformation fails, return original response
+    console.error('Transformation error:', transformError.message, transformError.stack);
+    return responseClone;
+  }
 }
 
 /**
