@@ -2233,3 +2233,12 @@ This Cloudflare Worker is a production-ready solution for optimizing and proxyin
 - Acceptable overhead (< 1% of total page load time)
 - Caching reduces origin load significantly
 
+## Fixes
+
+### Webflow JavaScript Chunks Fix
+
+**Issue:** Webflow's internal JavaScript chunks (`/dist/chunk-*.js`) were being proxied by the Worker, causing 400 errors. Webflow's CDN blocks access to the `/dist/` path for non-browser requests (returns 403 Forbidden).
+
+**Fix:** Added exclusions in `transformScriptTags()` and `transformAssetUrl()` to skip `/dist/chunk-*.js` files. These chunks now load directly from Webflow's CDN via the browser, which has the proper context to access them.
+
+**Result:** Chunks load correctly, no errors, site functions properly.
