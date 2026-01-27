@@ -1,7 +1,6 @@
 # Complete Guide: Cloudflare Worker for Webflow Image & Asset Optimization
 
 **Version:** 4.3 (Production-Ready)  
-**Last Updated:** January 2025
 
 This is more of a techincal guide of how teh code works, to just start using the worker, please head straight to: https://www.milkmoonstudio.com/post/optimize-webflow-with-cloudflare-images-assets-caching-in-2026
 
