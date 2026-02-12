@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EQL Rebuild — Design System Variables</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&family=DM+Mono:wght@400;500&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: #0e0e11;
+    color: #e0dfd8;
+    padding: 48px 56px 80px;
+    font-size: 13px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    max-width: 1200px;
+  }
+
+  .header {
+    margin-bottom: 48px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+  .header h1 {
+    font-size: 22px;
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    color: #fff;
+  }
+  .header p {
+    font-size: 13px;
+    color: #777;
+    margin-top: 6px;
+  }
+
+  .collection-label {
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: #444;
+    margin-bottom: 6px;
+    margin-top: 56px;
+  }
+
+  .section {
+    margin-bottom: 36px;
+  }
+  .section-title {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #6e6aff;
+    margin-bottom: 14px;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12.5px;
+    margin-bottom: 8px;
+  }
+  thead th {
+    text-align: left;
+    font-size: 10.5px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #666;
+    padding: 0 16px 10px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+  tbody td {
+    padding: 9px 16px 9px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    vertical-align: top;
+  }
+  tbody tr:last-child td { border-bottom: none; }
+
+  .var-name {
+    font-weight: 500;
+    color: #fff;
+    white-space: nowrap;
+  }
+  .val {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    color: #b8b6ad;
+  }
+  .val-rem {
+    color: #555;
+    font-size: 11px;
+  }
+  .fluid-yes {
+    color: #4ade80;
+    font-size: 11px;
+    font-weight: 500;
+  }
+  .fluid-no {
+    color: #555;
+    font-size: 11px;
+  }
+  .formula {
+    font-family: 'DM Mono', monospace;
+    font-size: 10.5px;
+    color: #555;
+    word-break: break-all;
+    max-width: 520px;
+  }
+
+  /* Color swatches */
+  .color-row td:first-child { width: 200px; }
+  .swatch {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    border-radius: 4px;
+    vertical-align: middle;
+    margin-right: 8px;
+    border: 1px solid rgba(255,255,255,0.1);
+  }
+  .swatch-transparent {
+    background: repeating-conic-gradient(#333 0% 25%, #555 0% 50%) 50% / 8px 8px;
+  }
+
+  .weight-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 6px 24px;
+  }
+  .weight-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 6px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+  }
+  .weight-label { color: #999; }
+  .weight-val {
+    font-family: 'DM Mono', monospace;
+    color: #b8b6ad;
+  }
+
+  .note {
+    margin-top: 40px;
+    padding: 16px 20px;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 8px;
+    font-size: 12px;
+    color: #777;
+    line-height: 1.7;
+  }
+  .note strong { color: #999; }
+
+  hr.divider {
+    border: none;
+    border-top: 1px solid rgba(255,255,255,0.06);
+    margin: 48px 0 8px;
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>EQL Rebuild — Design System Variables</h1>
+  <p>Webflow design token reference · All clamp values scale between 320px (20rem) – 1312px (82rem) viewport</p>
+</div>
+
+<!-- ================================================================ -->
+<!-- PRIMITIVES -->
+<!-- ================================================================ -->
+<div class="collection-label">Collection: Primitives</div>
+
+<!-- COLORS -->
+<div class="section">
+  <div class="section-title">Colors</div>
+  <table class="color-row">
+    <thead><tr><th>Variable</th><th>Value</th></tr></thead>
+    <tbody>
+      <tr><td class="var-name"><span class="swatch" style="background:#fff"></span>White</td><td class="val">white</td></tr>
+      <tr><td class="var-name"><span class="swatch" style="background:#eee"></span>Neutral Lightest</td><td class="val">#eee</td></tr>
+      <tr><td class="var-name"><span class="swatch" style="background:#ccc"></span>Neutral Lighter</td><td class="val">#ccc</td></tr>
+      <tr><td class="var-name"><span class="swatch" style="background:#aaa"></span>Neutral Light</td><td class="val">#aaa</td></tr>
+      <tr><td class="var-name"><span class="swatch" style="background:#666"></span>Neutral</td><td class="val">#666</td></tr>
+      <tr><td class="var-name"><span class="swatch" style="background:#444"></span>Neutral Dark</td><td class="val">#444</td></tr>
+      <tr><td class="var-name"><span class="swatch" style="background:#222"></span>Neutral Darker</td><td class="val">#222</td></tr>
+      <tr><td class="var-name"><span class="swatch" style="background:#000"></span>Neutral Darkest</td><td class="val">black</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- OPACITY -->
+<div class="section">
+  <div class="section-title">Opacity</div>
+  <table class="color-row">
+    <thead><tr><th>Variable</th><th>Value</th></tr></thead>
+    <tbody>
+      <tr><td class="var-name"><span class="swatch swatch-transparent"></span>Transparent</td><td class="val">transparent</td></tr>
+      <tr><td class="var-name"><span class="swatch" style="background:rgba(255,255,255,0.05)"></span>White 5</td><td class="val">rgba(255, 255, 255, 0.05)</td></tr>
+      <tr><td class="var-name"><span class="swatch" style="background:rgba(255,255,255,0.1)"></span>White 10</td><td class="val">rgba(255, 255, 255, 0.1)</td></tr>
+      <tr><td class="var-name"><span class="swatch" style="background:rgba(255,255,255,0.15)"></span>White 15</td><td class="val">rgba(255, 255, 255, 0.15)</td></tr>
+      <tr><td class="var-name"><span class="swatch" style="background:rgba(255,255,255,0.2)"></span>White 20</td><td class="val">rgba(255, 255, 255, 0.2)</td></tr>
+      <tr><td class="var-name"><span class="swatch" style="background:rgba(255,255,255,0.3)"></span>White 30</td><td class="val">rgba(255, 255, 255, 0.3)</td></tr>
+      <tr><td class="var-name"><span class="swatch" style="background:rgba(255,255,255,0.4)"></span>White 40</td><td class="val">rgba(255, 255, 255, 0.4)</td></tr>
+      <tr><td class="var-name"><span class="swatch" style="background:rgba(255,255,255,0.5)"></span>White 50</td><td class="val">rgba(255, 255, 255, 0.5)</td></tr>
+      <tr><td class="var-name"><span class="swatch" style="background:rgba(255,255,255,0.6)"></span>White 60</td><td class="val">rgba(255, 255, 255, 0.6)</td></tr>
+      <tr><td class="var-name"><span class="swatch" style="background:rgba(0,0,0,0.05)"></span>Neutral Darkest 5</td><td class="val">rgba(0, 0, 0, 0.05)</td></tr>
+      <tr><td class="var-name"><span class="swatch" style="background:rgba(0,0,0,0.1)"></span>Neutral Darkest 10</td><td class="val">rgba(0, 0, 0, 0.1)</td></tr>
+      <tr><td class="var-name"><span class="swatch" style="background:rgba(0,0,0,0.15)"></span>Neutral Darkest 15</td><td class="val">rgba(0, 0, 0, 0.15)</td></tr>
+      <tr><td class="var-name"><span class="swatch" style="background:rgba(0,0,0,0.2)"></span>Neutral Darkest 20</td><td class="val">rgba(0, 0, 0, 0.2)</td></tr>
+      <tr><td class="var-name"><span class="swatch" style="background:rgba(0,0,0,0.3)"></span>Neutral Darkest 30</td><td class="val">rgba(0, 0, 0, 0.3)</td></tr>
+      <tr><td class="var-name"><span class="swatch" style="background:rgba(0,0,0,0.4)"></span>Neutral Darkest 40</td><td class="val">rgba(0, 0, 0, 0.4)</td></tr>
+      <tr><td class="var-name"><span class="swatch" style="background:rgba(0,0,0,0.5)"></span>Neutral Darkest 50</td><td class="val">rgba(0, 0, 0, 0.5)</td></tr>
+      <tr><td class="var-name"><span class="swatch" style="background:rgba(0,0,0,0.6)"></span>Neutral Darkest 60</td><td class="val">rgba(0, 0, 0, 0.6)</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- ================================================================ -->
+<!-- COLOR SCHEMES -->
+<!-- ================================================================ -->
+<hr class="divider">
+<div class="collection-label">Collection: Color Schemes</div>
+
+<div class="section">
+  <div class="section-title">Brand</div>
+  <table class="color-row">
+    <thead><tr><th>Variable</th><th>Value</th><th>Alias / Source</th></tr></thead>
+    <tbody>
+      <tr><td class="var-name"><span class="swatch" style="background:#000"></span>Black</td><td class="val">black</td><td class="formula">→ Neutral Darkest</td></tr>
+      <tr><td class="var-name"><span class="swatch" style="background:#fff"></span>White</td><td class="val">white</td><td class="formula">→ White</td></tr>
+      <tr><td class="var-name"><span class="swatch" style="background:#ffde2f"></span>Yellow</td><td class="val">#ffde2f</td><td></td></tr>
+      <tr><td class="var-name"><span class="swatch" style="background:#fff6c7"></span>Yellow Light</td><td class="val">#fff6c7</td><td></td></tr>
+      <tr><td class="var-name"><span class="swatch" style="background:#e1dfd1"></span>Luminous Grey</td><td class="val">#e1dfd1</td><td></td></tr>
+      <tr><td class="var-name"><span class="swatch" style="background:#baaea3"></span>Taupe</td><td class="val">#baaea3</td><td></td></tr>
+      <tr><td class="var-name"><span class="swatch" style="background:#fae3bc"></span>Sand</td><td class="val">#fae3bc</td><td></td></tr>
+      <tr><td class="var-name"><span class="swatch" style="background:#ff5c00"></span>Red Orange</td><td class="val">#ff5c00</td><td></td></tr>
+      <tr><td class="var-name"><span class="swatch" style="background:#ffad80"></span>Red Orange Light</td><td class="val">#ffad80</td><td></td></tr>
+      <tr><td class="var-name"><span class="swatch" style="background:#d12ef6"></span>Neon Purple</td><td class="val">#d12ef6</td><td></td></tr>
+      <tr><td class="var-name"><span class="swatch" style="background:#e391f5"></span>Fuchsia</td><td class="val">#e391f5</td><td></td></tr>
+      <tr><td class="var-name"><span class="swatch" style="background:#ff7ada"></span>Neon Pink</td><td class="val">#ff7ada</td><td></td></tr>
+      <tr><td class="var-name"><span class="swatch" style="background:#ffbdec"></span>Neon Pink Light</td><td class="val">#ffbdec</td><td></td></tr>
+      <tr><td class="var-name"><span class="swatch" style="background:#90e768"></span>Pastel Green</td><td class="val">#90e768</td><td></td></tr>
+      <tr><td class="var-name"><span class="swatch" style="background:#c7f3b3"></span>Pastel Green Light</td><td class="val">#c7f3b3</td><td></td></tr>
+      <tr><td class="var-name"><span class="swatch" style="background:#56c2ff"></span>Maya Blue</td><td class="val">#56c2ff</td><td></td></tr>
+      <tr><td class="var-name"><span class="swatch" style="background:#abe1ff"></span>Maya Blue Light</td><td class="val">#abe1ff</td><td></td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- ================================================================ -->
+<!-- TYPOGRAPHY -->
+<!-- ================================================================ -->
+<hr class="divider">
+<div class="collection-label">Collection: Typography</div>
+
+<!-- FONT FAMILIES -->
+<div class="section">
+  <div class="section-title">Font Families</div>
+  <table>
+    <tbody>
+      <tr><td class="var-name">Heading</td><td class="val">Frequenz</td></tr>
+      <tr><td class="var-name">Body</td><td class="val">Lab Grotesque</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- FONT SIZE -->
+<div class="section">
+  <div class="section-title">Font Size</div>
+  <table>
+    <thead><tr><th>Variable</th><th>Mobile</th><th>Desktop</th><th>Fluid</th><th>Formula</th></tr></thead>
+    <tbody>
+      <tr><td class="var-name">Heading – H1</td><td class="val">42px <span class="val-rem">2.625rem</span></td><td class="val">50px <span class="val-rem">3.125rem</span></td><td><span class="fluid-yes">● Yes</span></td><td class="formula">clamp(2.625rem, …, 3.125rem)</td></tr>
+      <tr><td class="var-name">Heading – H2</td><td class="val">30px <span class="val-rem">1.875rem</span></td><td class="val">36px <span class="val-rem">2.25rem</span></td><td><span class="fluid-yes">● Yes</span></td><td class="formula">clamp(1.875rem, …, 2.25rem)</td></tr>
+      <tr><td class="var-name">Heading – H3</td><td class="val">26px <span class="val-rem">1.625rem</span></td><td class="val">26px <span class="val-rem">1.625rem</span></td><td><span class="fluid-no">— Static</span></td><td class="formula">clamp(1.625rem, …, 1.625rem)</td></tr>
+      <tr><td class="var-name">Heading – H4</td><td class="val">18px <span class="val-rem">1.125rem</span></td><td class="val">18px <span class="val-rem">1.125rem</span></td><td><span class="fluid-no">— Static</span></td><td class="formula">clamp(1.125rem, …, 1.125rem)</td></tr>
+      <tr><td class="var-name">Heading – H5</td><td class="val">17px <span class="val-rem">1.06rem</span></td><td class="val">20px <span class="val-rem">1.25rem</span></td><td><span class="fluid-yes">● Yes</span></td><td class="formula">clamp(1.06rem, …, 1.25rem)</td></tr>
+      <tr><td class="var-name">Data Heading</td><td class="val">80px</td><td class="val">80px</td><td><span class="fluid-no">— Static</span></td><td class="formula">80px</td></tr>
+      <tr><td class="var-name">Introduction</td><td class="val">22px <span class="val-rem">1.375rem</span></td><td class="val">22px <span class="val-rem">1.375rem</span></td><td><span class="fluid-no">— Static</span></td><td class="formula">clamp(1.375rem, …, 1.375rem)</td></tr>
+      <tr><td class="var-name">Body</td><td class="val">18px <span class="val-rem">1.125rem</span></td><td class="val">18px <span class="val-rem">1.125rem</span></td><td><span class="fluid-no">— Static</span></td><td class="formula">clamp(1.125rem, …, 1.125rem)</td></tr>
+      <tr><td class="var-name">Small</td><td class="val">15px <span class="val-rem">0.9375rem</span></td><td class="val">16px <span class="val-rem">1rem</span></td><td><span class="fluid-yes">● Yes</span></td><td class="formula">clamp(0.9375rem, …, 1rem)</td></tr>
+      <tr><td class="var-name">Label</td><td class="val">15px <span class="val-rem">0.94rem</span></td><td class="val">16px <span class="val-rem">1rem</span></td><td><span class="fluid-yes">● Yes</span></td><td class="formula">clamp(0.94rem, …, 1rem)</td></tr>
+      <tr><td class="var-name">Boxed Text – Heading</td><td class="val">26px <span class="val-rem">1.63rem</span></td><td class="val">55px <span class="val-rem">3.44rem</span></td><td><span class="fluid-yes">● Yes</span></td><td class="formula">clamp(1.63rem, …, 3.44rem)</td></tr>
+      <tr><td class="var-name">Legend</td><td class="val">16px <span class="val-rem">1rem</span></td><td class="val">16px <span class="val-rem">1rem</span></td><td><span class="fluid-no">— Static</span></td><td class="formula">clamp(1rem, …, 1rem)</td></tr>
+      <tr><td class="var-name">Button</td><td class="val">16px <span class="val-rem">1rem</span></td><td class="val">16px <span class="val-rem">1rem</span></td><td><span class="fluid-no">— Static</span></td><td class="formula">clamp(1rem, …, 1rem)</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- LINE HEIGHT -->
+<div class="section">
+  <div class="section-title">Line Height</div>
+  <table>
+    <thead><tr><th>Variable</th><th>Mobile</th><th>Desktop</th><th>Fluid</th><th>Formula</th></tr></thead>
+    <tbody>
+      <tr><td class="var-name">Heading – H1</td><td class="val">52px <span class="val-rem">3.25rem</span></td><td class="val">60px <span class="val-rem">3.75rem</span></td><td><span class="fluid-yes">● Yes</span></td><td class="formula">clamp(3.25rem, …, 3.75rem)</td></tr>
+      <tr><td class="var-name">Heading – H2</td><td class="val">40px <span class="val-rem">2.5rem</span></td><td class="val">46px <span class="val-rem">2.875rem</span></td><td><span class="fluid-yes">● Yes</span></td><td class="formula">clamp(2.5rem, …, 2.875rem)</td></tr>
+      <tr><td class="var-name">Heading – H3</td><td class="val">32px <span class="val-rem">2rem</span></td><td class="val">32px <span class="val-rem">2rem</span></td><td><span class="fluid-no">— Static</span></td><td class="formula">clamp(2rem, …, 2rem)</td></tr>
+      <tr><td class="var-name">Heading – H4</td><td class="val">24px <span class="val-rem">1.5rem</span></td><td class="val">24px <span class="val-rem">1.5rem</span></td><td><span class="fluid-no">— Static</span></td><td class="formula">clamp(1.5rem, …, 1.5rem)</td></tr>
+      <tr><td class="var-name">Introduction</td><td class="val">30px <span class="val-rem">1.875rem</span></td><td class="val">30px <span class="val-rem">1.875rem</span></td><td><span class="fluid-no">— Static</span></td><td class="formula">clamp(1.875rem, …, 1.875rem)</td></tr>
+      <tr><td class="var-name">Body</td><td class="val">24px <span class="val-rem">1.5rem</span></td><td class="val">24px <span class="val-rem">1.5rem</span></td><td><span class="fluid-no">— Static</span></td><td class="formula">clamp(1.5rem, …, 1.5rem)</td></tr>
+      <tr><td class="var-name">Small</td><td class="val">17px <span class="val-rem">1.06rem</span></td><td class="val">20px <span class="val-rem">1.25rem</span></td><td><span class="fluid-yes">● Yes</span></td><td class="formula">clamp(1.06rem, …, 1.25rem)</td></tr>
+      <tr><td class="var-name">Label</td><td class="val">20px <span class="val-rem">1.25rem</span></td><td class="val">20px <span class="val-rem">1.25rem</span></td><td><span class="fluid-no">— Static</span></td><td class="formula">clamp(1.25rem, …, 1.25rem)</td></tr>
+      <tr><td class="var-name">Boxed Text – Heading</td><td class="val">30px <span class="val-rem">1.88rem</span></td><td class="val">60px <span class="val-rem">3.75rem</span></td><td><span class="fluid-yes">● Yes</span></td><td class="formula">clamp(1.88rem, …, 3.75rem)</td></tr>
+      <tr><td class="var-name">Legend</td><td class="val">20px <span class="val-rem">1.25rem</span></td><td class="val">20px <span class="val-rem">1.25rem</span></td><td><span class="fluid-no">— Static</span></td><td class="formula">clamp(1.25rem, …, 1.25rem)</td></tr>
+      <tr><td class="var-name">Button</td><td class="val">16px <span class="val-rem">1rem</span></td><td class="val">29px <span class="val-rem">1.8125rem</span></td><td><span class="fluid-yes">● Yes</span></td><td class="formula">clamp(1rem, …, 1.8125rem)</td></tr>
+      <tr><td class="var-name">Data Heading</td><td class="val">75%</td><td class="val">75%</td><td><span class="fluid-no">— Static</span></td><td class="formula">75%</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- LETTER SPACING -->
+<div class="section">
+  <div class="section-title">Letter Spacing</div>
+  <table>
+    <thead><tr><th>Variable</th><th>Mobile</th><th>Desktop</th><th>Fluid</th><th>Formula</th></tr></thead>
+    <tbody>
+      <tr><td class="var-name">Label</td><td class="val">0.6px <span class="val-rem">0.0375rem</span></td><td class="val">0.64px <span class="val-rem">0.04rem</span></td><td><span class="fluid-yes">● Yes</span></td><td class="formula">clamp(0.0375rem, …, 0.04rem)</td></tr>
+      <tr><td class="var-name">Legend</td><td class="val">1.6px</td><td class="val">1.6px</td><td><span class="fluid-no">— Static</span></td><td class="formula">1.6px</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- FONT WEIGHT -->
+<div class="section">
+  <div class="section-title">Font Weight</div>
+  <div class="weight-grid">
+    <div class="weight-item"><span class="weight-label">Thin</span><span class="weight-val">100</span></div>
+    <div class="weight-item"><span class="weight-label">Extra Light</span><span class="weight-val">200</span></div>
+    <div class="weight-item"><span class="weight-label">Light</span><span class="weight-val">300</span></div>
+    <div class="weight-item"><span class="weight-label">Regular</span><span class="weight-val">400</span></div>
+    <div class="weight-item"><span class="weight-label">Medium</span><span class="weight-val">500</span></div>
+    <div class="weight-item"><span class="weight-label">Semi-Bold</span><span class="weight-val">600</span></div>
+    <div class="weight-item"><span class="weight-label">Bold</span><span class="weight-val">700</span></div>
+    <div class="weight-item"><span class="weight-label">Extra Bold</span><span class="weight-val">800</span></div>
+    <div class="weight-item"><span class="weight-label">Black</span><span class="weight-val">900</span></div>
+  </div>
+</div>
+
+<!-- ================================================================ -->
+<!-- UI STYLES -->
+<!-- ================================================================ -->
+<hr class="divider">
+<div class="collection-label">Collection: UI Styles</div>
+
+<!-- RADIUS -->
+<div class="section">
+  <div class="section-title">Radius</div>
+  <table>
+    <thead><tr><th>Variable</th><th>Value</th></tr></thead>
+    <tbody>
+      <tr><td class="var-name">Large</td><td class="val">0px</td></tr>
+      <tr><td class="var-name">Medium</td><td class="val">0px</td></tr>
+      <tr><td class="var-name">Small</td><td class="val">0px</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- STROKE -->
+<div class="section">
+  <div class="section-title">Stroke</div>
+  <table>
+    <thead><tr><th>Variable</th><th>Value</th><th>Formula / Alias</th></tr></thead>
+    <tbody>
+      <tr><td class="var-name">Border Width</td><td class="val">2px</td><td></td></tr>
+      <tr><td class="var-name">Divider Width</td><td class="val">1px</td><td></td></tr>
+      <tr><td class="var-name">Button Border</td><td class="val">2px</td><td class="formula">→ Border Width</td></tr>
+      <tr><td class="var-name">Icon Border</td><td class="val">2px</td><td class="formula">→ Border Width</td></tr>
+      <tr><td class="var-name">Image Border</td><td class="val">2px</td><td class="formula">→ Border Width</td></tr>
+      <tr><td class="var-name">Navbar</td><td class="val">2px</td><td class="formula">→ Border Width</td></tr>
+      <tr><td class="var-name">Negative Border Width</td><td class="val">-2px</td><td class="formula">calc(Border Width * -1)</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- PADDING -->
+<div class="section">
+  <div class="section-title">Padding</div>
+  <table>
+    <thead><tr><th>Variable</th><th>Mobile</th><th>Desktop</th><th>Fluid</th><th>Formula</th></tr></thead>
+    <tbody>
+      <tr><td class="var-name">Padding Global</td><td class="val">24px <span class="val-rem">1.5rem</span></td><td class="val">64px <span class="val-rem">4rem</span></td><td><span class="fluid-yes">● Yes</span></td><td class="formula">clamp(1.5rem, …, 4rem)</td></tr>
+      <tr><td class="var-name">Icon Padding</td><td class="val">12.5%</td><td class="val">12.5%</td><td><span class="fluid-no">— Static</span></td><td class="formula">12.5%</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- ================================================================ -->
+<!-- SPACING -->
+<!-- ================================================================ -->
+<hr class="divider">
+<div class="collection-label">Collection: Spacing</div>
+
+<!-- SPACING SCALE -->
+<div class="section">
+  <div class="section-title">Spacing Scale</div>
+  <table>
+    <thead><tr><th>Variable</th><th>Mobile</th><th>Desktop</th><th>Fluid</th><th>Formula</th></tr></thead>
+    <tbody>
+      <tr><td class="var-name">Spacing 8</td><td class="val">8px <span class="val-rem">0.5rem</span></td><td class="val">8px <span class="val-rem">0.5rem</span></td><td><span class="fluid-no">— Static</span></td><td class="formula">clamp(0.5rem, …, 0.5rem)</td></tr>
+      <tr><td class="var-name">Spacing 16</td><td class="val">12px <span class="val-rem">0.75rem</span></td><td class="val">16px <span class="val-rem">1rem</span></td><td><span class="fluid-yes">● Yes</span></td><td class="formula">clamp(0.75rem, …, 1rem)</td></tr>
+      <tr><td class="var-name">Spacing 24</td><td class="val">16px <span class="val-rem">1rem</span></td><td class="val">24px <span class="val-rem">1.5rem</span></td><td><span class="fluid-yes">● Yes</span></td><td class="formula">clamp(1rem, …, 1.5rem)</td></tr>
+      <tr><td class="var-name">Spacing 32</td><td class="val">24px <span class="val-rem">1.5rem</span></td><td class="val">32px <span class="val-rem">2rem</span></td><td><span class="fluid-yes">● Yes</span></td><td class="formula">clamp(1.5rem, …, 2rem)</td></tr>
+      <tr><td class="var-name">Spacing 40</td><td class="val">32px <span class="val-rem">2rem</span></td><td class="val">40px <span class="val-rem">2.5rem</span></td><td><span class="fluid-yes">● Yes</span></td><td class="formula">clamp(2rem, …, 2.5rem)</td></tr>
+      <tr><td class="var-name">Spacing 48</td><td class="val">32px <span class="val-rem">2rem</span></td><td class="val">48px <span class="val-rem">3rem</span></td><td><span class="fluid-yes">● Yes</span></td><td class="formula">clamp(2rem, …, 3rem)</td></tr>
+      <tr><td class="var-name">Spacing 56</td><td class="val">40px <span class="val-rem">2.5rem</span></td><td class="val">56px <span class="val-rem">3.5rem</span></td><td><span class="fluid-yes">● Yes</span></td><td class="formula">clamp(2.5rem, …, 3.5rem)</td></tr>
+      <tr><td class="var-name">Spacing 64</td><td class="val">48px <span class="val-rem">3rem</span></td><td class="val">64px <span class="val-rem">4rem</span></td><td><span class="fluid-yes">● Yes</span></td><td class="formula">clamp(3rem, …, 4rem)</td></tr>
+      <tr><td class="var-name">Spacing 72</td><td class="val">48px <span class="val-rem">3rem</span></td><td class="val">72px <span class="val-rem">4.5rem</span></td><td><span class="fluid-yes">● Yes</span></td><td class="formula">clamp(3rem, …, 4.5rem)</td></tr>
+      <tr><td class="var-name">Spacing 80</td><td class="val">56px <span class="val-rem">3.5rem</span></td><td class="val">80px <span class="val-rem">5rem</span></td><td><span class="fluid-yes">● Yes</span></td><td class="formula">clamp(3.5rem, …, 5rem)</td></tr>
+      <tr><td class="var-name">Spacing 88</td><td class="val">56px <span class="val-rem">3.5rem</span></td><td class="val">88px <span class="val-rem">5.5rem</span></td><td><span class="fluid-yes">● Yes</span></td><td class="formula">clamp(3.5rem, …, 5.5rem)</td></tr>
+      <tr><td class="var-name">Spacing 96</td><td class="val">56px <span class="val-rem">3.5rem</span></td><td class="val">96px <span class="val-rem">6rem</span></td><td><span class="fluid-yes">● Yes</span></td><td class="formula">clamp(3.5rem, …, 6rem)</td></tr>
+      <tr><td class="var-name">Spacing 104</td><td class="val">64px <span class="val-rem">4rem</span></td><td class="val">104px <span class="val-rem">6.5rem</span></td><td><span class="fluid-yes">● Yes</span></td><td class="formula">clamp(4rem, …, 6.5rem)</td></tr>
+      <tr><td class="var-name">Spacing 136</td><td class="val">72px <span class="val-rem">4.5rem</span></td><td class="val">136px <span class="val-rem">8.5rem</span></td><td><span class="fluid-yes">● Yes</span></td><td class="formula">clamp(4.5rem, …, 8.5rem)</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- STACKING CARDS -->
+<div class="section">
+  <div class="section-title">Stacking Cards Top Padding</div>
+  <table>
+    <thead><tr><th>Variable</th><th>Formula</th></tr></thead>
+    <tbody>
+      <tr><td class="var-name">Card 1</td><td class="formula">→ Spacing 136</td></tr>
+      <tr><td class="var-name">Card 2</td><td class="formula">calc((Card 1 + Spacing 56) - Border Width)</td></tr>
+      <tr><td class="var-name">Card 3</td><td class="formula">calc((Card 1 + Spacing 56 × 2) - Border Width × 2)</td></tr>
+      <tr><td class="var-name">Card 4</td><td class="formula">calc((Card 1 + Spacing 56 × 3) - Border Width × 3)</td></tr>
+      <tr><td class="var-name">Card 5</td><td class="formula">calc((Card 1 + Spacing 56 × 4) - Border Width × 4)</td></tr>
+      <tr><td class="var-name">Card 6</td><td class="formula">calc((Card 1 + Spacing 56 × 5) - Border Width × 5)</td></tr>
+      <tr><td class="var-name">Card 7</td><td class="formula">calc((Card 1 + Spacing 56 × 6) - Border Width × 6)</td></tr>
+      <tr><td class="var-name">Card 8</td><td class="formula">calc((Card 1 + Spacing 56 × 7) - Border Width × 7)</td></tr>
+      <tr><td class="var-name">Card 9</td><td class="formula">calc((Card 1 + Spacing 56 × 8) - Border Width × 8)</td></tr>
+      <tr><td class="var-name">Card 10</td><td class="formula">calc((Card 1 + Spacing 56 × 9) - Border Width × 9)</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- OTHER PADDING -->
+<div class="section">
+  <div class="section-title">Other</div>
+  <table>
+    <thead><tr><th>Variable</th><th>Value</th></tr></thead>
+    <tbody>
+      <tr><td class="var-name">Navbar Header Top Clearance Offset</td><td class="val">6.25rem (100px)</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- NOTES -->
+<div class="note">
+  <strong>Notes:</strong> All clamp values scale between 320px (20rem) and 1312px (82rem) viewport widths. "Static" entries use identical min/max — no fluid scaling. Base rem = 16px. Brand colors marked with → are aliases referencing Primitive variables.
+</div>
+
+</body>
+</html>
