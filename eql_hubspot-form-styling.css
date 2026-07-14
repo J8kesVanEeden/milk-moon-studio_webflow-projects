@@ -151,12 +151,10 @@
   text-transform: uppercase !important;
 }
 
-/* Labels — one broad rule per engine, exactly like legacy.
-   Checkbox/consent labels are EXCLUDED so they stay readable. */
-.hs-form label:not(.hs-form-booleancheckbox-display):not(.hs-form-checkbox-display),
-.hs-form .hs-field-desc,
-.hsfc-FieldLabel,
-.hsfc-Form .hsfc-FieldLabel:not(.hsfc-CheckboxField .hsfc-FieldLabel),
+/* Labels — field labels get Frequenz/bold/uppercase.
+   Checkbox/radio labels excluded (they share .hsfc-FieldLabel). */
+.hs-form label:not(:has(input[type="checkbox"])):not(:has(input[type="radio"])),
+.hsfc-FieldLabel:not(:has(input[type="checkbox"])):not(:has(input[type="radio"])),
 .hs-form__field__label,
 .hs-form__field:not(.hs-form__field--checkbox) label {
   font-family: "Frequenz", sans-serif !important;
@@ -362,4 +360,28 @@
   .hs-form__field textarea {
     font-size: 0.875rem !important; /* 14px - matches desktop */
   }
+}
+
+/* ============================================
+   CHECKBOX / RADIO / CONSENT LABELS — readable.
+   .hsfc-FieldLabel:has(input) verified live on the
+   collectibles form (weight 700/uppercase -> 400/none).
+   ============================================ */
+.hs-form label:has(input[type="checkbox"]),
+.hs-form label:has(input[type="radio"]),
+.hs-form-booleancheckbox label,
+.hsfc-CheckboxField .hsfc-FieldLabel,
+.hsfc-RadioField .hsfc-FieldLabel,
+.hsfc-FieldLabel:has(input[type="checkbox"]),
+.hsfc-FieldLabel:has(input[type="radio"]),
+.hs-form__field--checkbox label,
+.hs-form__field label:has(input[type="checkbox"]) {
+  font-family: inherit !important;
+  font-weight: 400 !important;
+  text-transform: none !important;
+  letter-spacing: normal !important;
+  color: #000000 !important;
+  font-size: 0.875rem !important;
+  margin-bottom: 0 !important;
+  line-height: 1.4 !important;
 }
