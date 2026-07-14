@@ -151,7 +151,7 @@
   text-transform: uppercase !important;
 }
 
-/* Labels */
+/* Labels (general — text/email/etc. field labels) */
 .hs-form label,
 .hsfc-FieldLabel,
 .hsfc-Form .hsfc-FieldLabel,
@@ -226,6 +226,7 @@
   position: relative !important;
   margin-right: 0.75rem !important;
   cursor: pointer !important;
+  flex-shrink: 0 !important;
 }
 
 .hs-form input[type="checkbox"]:checked,
@@ -266,6 +267,7 @@
   position: relative !important;
   margin-right: 0.75rem !important;
   cursor: pointer !important;
+  flex-shrink: 0 !important;
 }
 
 .hs-form input[type="radio"]:checked,
@@ -362,29 +364,42 @@
 
 /* ============================================
    CHECKBOX / CONSENT LABELS ONLY
-   Override the general label style so consent
-   text stays readable next to the checkbox.
-   Covers Legacy, hsfc-*, and current-gen forms.
+   Targets labels attached to checkboxes across
+   ALL HubSpot engines without relying on
+   wrapper class names. Must come AFTER the
+   general label rule to win.
    ============================================ */
 
-/* Legacy (.hs-form) */
-.hs-form .hs-form-booleancheckbox label,
-.hs-form ul.inputs-list label,
-.hs-form .hs-form-checkbox label,
-/* New forms (hsfc-*) */
+/* A label that wraps a checkbox, or sits right after one */
+label:has(input[type="checkbox"]),
+input[type="checkbox"] + label,
+input[type="checkbox"] + span,
+/* Known checkbox wrappers, all engines */
+.hs-form-booleancheckbox label,
+.hs-form-booleancheckbox-display,
+ul.inputs-list label,
 .hsfc-CheckboxField label,
 .hsfc-CheckboxFieldGroup label,
-.hsfc-Form .hsfc-CheckboxField .hsfc-FieldLabel,
-/* Current-gen (.hs-form__*) */
 .hs-form__field--checkbox label,
-.hs-form__field__checkbox label,
-.hs-form__checkbox label {
-  color: #000000 !important;           /* readable dark text */
+.hs-form__field__checkbox label {
+  color: #000000 !important;
   font-family: inherit !important;      /* normal body font, not Frequenz */
   font-weight: 400 !important;          /* not bold */
   font-size: 0.875rem !important;
   text-transform: none !important;      /* no ALL CAPS */
+  letter-spacing: normal !important;
   margin-bottom: 0 !important;
   display: inline !important;           /* sit beside the box, not above */
   line-height: 1.4 !important;
+}
+
+/* Keep consent-text links readable */
+label:has(input[type="checkbox"]) a,
+.hs-form-booleancheckbox label a,
+.hsfc-CheckboxField label a,
+.hs-form__field--checkbox label a {
+  color: #000000 !important;
+  text-decoration: underline !important;
+  font-weight: 400 !important;
+  text-transform: none !important;
 }
