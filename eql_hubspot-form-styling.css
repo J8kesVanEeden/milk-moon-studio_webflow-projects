@@ -1,8 +1,55 @@
 /* ============================================
    HUBSPOT FORM STYLING - EQL
    Works with Developer Code embed (removes iframe)
-   Supports BOTH Legacy (.hs-form) AND New (hsfc-*) Forms
+   Supports Legacy (.hs-form), New (hsfc-*) AND
+   Current-gen (.hs-form__* + --hsf-* vars) Forms
    ============================================ */
+
+/* ---- CURRENT-GEN FORM ENGINE: CSS custom properties ---- */
+/* Scoped to the wrapper so it never leaks to other embeds  */
+.sneaker-form-embed,
+.hs-form-frame,
+:root {
+  --hsf-global__font-family: inherit;
+  --hsf-global__font-size: 0.875rem;
+  --hsf-global__color: #000000;
+  --hsf-global-error__color: #ff0000;
+
+  --hsf-field-label__font-family: "Frequenz", sans-serif;
+  --hsf-field-label__font-size: 0.875rem;
+  --hsf-field-label__color: #000000;
+
+  --hsf-field-input__font-family: inherit;
+  --hsf-field-input__font-size: 0.875rem;
+  --hsf-field-input__color: #000000;
+  --hsf-field-input__background-color: transparent;
+  --hsf-field-input__placeholder-color: #000000;
+  --hsf-field-input__border-color: #000000;
+  --hsf-field-input__border-width: 0 0 0.125rem 0;
+  --hsf-field-input__border-style: solid;
+  --hsf-field-input__border-radius: 0;
+  --hsf-field-input__padding: 0.75rem 0;
+
+  --hsf-field-textarea__border-color: #000000;
+  --hsf-field-textarea__border-width: 0 0 0.125rem 0;
+  --hsf-field-textarea__border-style: solid;
+  --hsf-field-textarea__border-radius: 0;
+  --hsf-field-textarea__padding: 0.75rem 0;
+
+  --hsf-row__vertical-spacing: 1rem;
+  --hsf-module__vertical-spacing: 1rem;
+
+  --hsf-button__font-family: "Frequenz", sans-serif;
+  --hsf-button__font-size: 0.875rem;
+  --hsf-button__color: #000000;
+  --hsf-button__background-color: #FFD700;
+  --hsf-button__border-radius: 0;
+  --hsf-button__padding: 0.75rem 1.5rem;
+
+  --hsf-background__background-color: transparent;
+  --hsf-background__padding: 0;
+  --hsf-background__border-style: none;
+}
 
 /* Form Container - Legacy */
 .hs-form,
@@ -13,6 +60,13 @@
 /* Form Container - New Forms (hsfc-*) */
 .hsfc-Form,
 .hsfc-FormWrapper {
+  width: 100% !important;
+}
+
+/* Form Container - Current-gen (.hs-form__*) */
+.hs-form-frame,
+.hs-form__virtual-form,
+.hs-form__form {
   width: 100% !important;
 }
 
@@ -32,7 +86,15 @@
 .hsfc-Form input[type="tel"],
 .hsfc-Form input[type="number"],
 .hsfc-Form select,
-.hsfc-Form textarea {
+.hsfc-Form textarea,
+/* Current-gen (.hs-form__*) */
+.hs-form__field__input,
+.hs-form__field input[type="text"],
+.hs-form__field input[type="email"],
+.hs-form__field input[type="tel"],
+.hs-form__field input[type="number"],
+.hs-form__field select,
+.hs-form__field textarea {
   border: none !important;
   border-bottom: 0.125rem solid #000000 !important; /* 2px bottom stroke only */
   border-radius: 0 !important;
@@ -54,13 +116,18 @@
 .hsfc-TextInput:focus,
 .hsfc-Form input:focus,
 .hsfc-Form select:focus,
-.hsfc-Form textarea:focus {
+.hsfc-Form textarea:focus,
+.hs-form__field__input:focus,
+.hs-form__field input:focus,
+.hs-form__field select:focus,
+.hs-form__field textarea:focus {
   border-bottom: 0.125rem solid #000000 !important;
   outline: none !important;
 }
 
 /* Textarea */
-.hs-form textarea {
+.hs-form textarea,
+.hs-form__field textarea {
   min-height: 5rem !important;
   resize: vertical !important;
 }
@@ -72,7 +139,10 @@
 .hsfc-Form input::placeholder,
 .hsfc-Form textarea::placeholder,
 .hsfc-Form select::placeholder,
-.hsfc-TextInput::placeholder {
+.hsfc-TextInput::placeholder,
+.hs-form__field__input::placeholder,
+.hs-form__field input::placeholder,
+.hs-form__field textarea::placeholder {
   color: #000000 !important;
   opacity: 1 !important;
   font-family: "Frequenz", sans-serif !important;
@@ -84,7 +154,9 @@
 /* Labels */
 .hs-form label,
 .hsfc-FieldLabel,
-.hsfc-Form .hsfc-FieldLabel {
+.hsfc-Form .hsfc-FieldLabel,
+.hs-form__field__label,
+.hs-form__field label {
   font-family: "Frequenz", sans-serif !important;
   color: #000000 !important;
   font-size: 0.875rem !important;
@@ -102,7 +174,11 @@
 /* New Forms (hsfc-*) */
 .hsfc-Button,
 .hsfc-Form .hsfc-Button,
-.hsfc-NavigationRow .hsfc-Button {
+.hsfc-NavigationRow .hsfc-Button,
+/* Current-gen (.hs-form__*) */
+.hs-form__button,
+.hs-form__actions button,
+.hs-form__actions input[type="submit"] {
   position: relative !important;
   background-color: #FFD700 !important; /* Yellow */
   color: #000000 !important;
@@ -127,7 +203,9 @@
 .hs-form .hs-button:hover,
 .hs-form input[type="submit"]:hover,
 .hsfc-Button:hover,
-.hsfc-Form .hsfc-Button:hover {
+.hsfc-Form .hsfc-Button:hover,
+.hs-form__button:hover,
+.hs-form__actions button:hover {
   background-color: #FFD700 !important; /* Keep yellow on hover */
   opacity: 0.9 !important;
 }
@@ -135,7 +213,8 @@
 /* Checkboxes - Square, 2px stroke */
 .hs-form input[type="checkbox"],
 .hsfc-CheckboxInput,
-.hsfc-Form input[type="checkbox"] {
+.hsfc-Form input[type="checkbox"],
+.hs-form__field input[type="checkbox"] {
   width: 1.25rem !important;
   height: 1.25rem !important;
   border: 0.125rem solid #000000 !important;
@@ -151,14 +230,16 @@
 
 .hs-form input[type="checkbox"]:checked,
 .hsfc-CheckboxInput:checked,
-.hsfc-Form input[type="checkbox"]:checked {
+.hsfc-Form input[type="checkbox"]:checked,
+.hs-form__field input[type="checkbox"]:checked {
   background-color: #000000 !important;
   border-color: #000000 !important;
 }
 
 .hs-form input[type="checkbox"]:checked::after,
 .hsfc-CheckboxInput:checked::after,
-.hsfc-Form input[type="checkbox"]:checked::after {
+.hsfc-Form input[type="checkbox"]:checked::after,
+.hs-form__field input[type="checkbox"]:checked::after {
   content: '✓' !important;
   position: absolute !important;
   top: 50% !important;
@@ -172,7 +253,8 @@
 /* Radio Buttons - Round, 2px stroke */
 .hs-form input[type="radio"],
 .hsfc-RadioInput,
-.hsfc-Form input[type="radio"] {
+.hsfc-Form input[type="radio"],
+.hs-form__field input[type="radio"] {
   width: 1.25rem !important;
   height: 1.25rem !important;
   border: 0.125rem solid #000000 !important;
@@ -188,14 +270,16 @@
 
 .hs-form input[type="radio"]:checked,
 .hsfc-RadioInput:checked,
-.hsfc-Form input[type="radio"]:checked {
+.hsfc-Form input[type="radio"]:checked,
+.hs-form__field input[type="radio"]:checked {
   background-color: #000000 !important;
   border-color: #000000 !important;
 }
 
 .hs-form input[type="radio"]:checked::after,
 .hsfc-RadioInput:checked::after,
-.hsfc-Form input[type="radio"]:checked::after {
+.hsfc-Form input[type="radio"]:checked::after,
+.hs-form__field input[type="radio"]:checked::after {
   content: '' !important;
   position: absolute !important;
   top: 50% !important;
@@ -213,12 +297,14 @@
 .hsfc-EmailField,
 .hsfc-DropdownField,
 .hsfc-CheckboxField,
-.hsfc-RadioField {
+.hsfc-RadioField,
+.hs-form__field {
   margin-bottom: 1rem !important;
 }
 
 .hs-form fieldset,
-.hsfc-Form fieldset {
+.hsfc-Form fieldset,
+.hs-form__form fieldset {
   border: none !important;
   padding: 0 !important;
   margin: 0 !important;
@@ -227,21 +313,25 @@
 /* Lists */
 .hs-form ul,
 .hsfc-Form ul,
-.hsfc-CheckboxFieldGroup__Options {
+.hsfc-CheckboxFieldGroup__Options,
+.hs-form__field ul {
   list-style: none !important;
   margin: 0 !important;
   padding: 0 !important;
 }
 
 /* Multistep Forms - Navigation Buttons */
-.hsfc-NavigationRow__Buttons {
+.hsfc-NavigationRow__Buttons,
+.hs-form__actions {
   display: flex !important;
   gap: 1rem !important;
   margin-top: 1.5rem !important;
 }
 
 /* Error Messages */
-.hs-form .hs-error-msgs {
+.hs-form .hs-error-msgs,
+.hs-form__field__error,
+.hs-form__error {
   color: #ff0000 !important;
   font-size: 0.875rem !important;
   margin-top: 0.5rem !important;
@@ -261,7 +351,11 @@
   .hs-form input[type="text"],
   .hs-form input[type="email"],
   .hs-form select,
-  .hs-form textarea {
+  .hs-form textarea,
+  .hs-form__field__input,
+  .hs-form__field input,
+  .hs-form__field select,
+  .hs-form__field textarea {
     font-size: 0.875rem !important; /* 14px - matches desktop */
   }
 }
