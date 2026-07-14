@@ -359,3 +359,32 @@
     font-size: 0.875rem !important; /* 14px - matches desktop */
   }
 }
+
+/* ============================================
+   CHECKBOX / CONSENT LABELS ONLY
+   Override the general label style so consent
+   text stays readable next to the checkbox.
+   Covers Legacy, hsfc-*, and current-gen forms.
+   ============================================ */
+
+/* Legacy (.hs-form) */
+.hs-form .hs-form-booleancheckbox label,
+.hs-form ul.inputs-list label,
+.hs-form .hs-form-checkbox label,
+/* New forms (hsfc-*) */
+.hsfc-CheckboxField label,
+.hsfc-CheckboxFieldGroup label,
+.hsfc-Form .hsfc-CheckboxField .hsfc-FieldLabel,
+/* Current-gen (.hs-form__*) */
+.hs-form__field--checkbox label,
+.hs-form__field__checkbox label,
+.hs-form__checkbox label {
+  color: #000000 !important;           /* readable dark text */
+  font-family: inherit !important;      /* normal body font, not Frequenz */
+  font-weight: 400 !important;          /* not bold */
+  font-size: 0.875rem !important;
+  text-transform: none !important;      /* no ALL CAPS */
+  margin-bottom: 0 !important;
+  display: inline !important;           /* sit beside the box, not above */
+  line-height: 1.4 !important;
+}
