@@ -385,3 +385,13 @@
   margin-bottom: 0 !important;
   line-height: 1.4 !important;
 }
+
+/* Consent label text sits in nested spans/em with an inline
+   color:#ffffff HubSpot injects — override it on the inner
+   elements so the text is actually visible. */
+.hsfc-CheckboxField .hsfc-FieldLabel span,
+.hsfc-CheckboxField .hsfc-FieldLabel em,
+.hsfc-RadioField .hsfc-FieldLabel span,
+.hsfc-RadioField .hsfc-FieldLabel em {
+  color: #000000 !important;
+}
