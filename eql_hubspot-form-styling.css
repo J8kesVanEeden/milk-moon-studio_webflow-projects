@@ -151,12 +151,14 @@
   text-transform: uppercase !important;
 }
 
-/* Labels (general — text/email/etc. field labels) */
-.hs-form label,
+/* Labels — one broad rule per engine, exactly like legacy.
+   Checkbox/consent labels are EXCLUDED so they stay readable. */
+.hs-form label:not(.hs-form-booleancheckbox-display):not(.hs-form-checkbox-display),
+.hs-form .hs-field-desc,
 .hsfc-FieldLabel,
-.hsfc-Form .hsfc-FieldLabel,
+.hsfc-Form .hsfc-FieldLabel:not(.hsfc-CheckboxField .hsfc-FieldLabel),
 .hs-form__field__label,
-.hs-form__field label {
+.hs-form__field:not(.hs-form__field--checkbox) label {
   font-family: "Frequenz", sans-serif !important;
   color: #000000 !important;
   font-size: 0.875rem !important;
@@ -360,46 +362,4 @@
   .hs-form__field textarea {
     font-size: 0.875rem !important; /* 14px - matches desktop */
   }
-}
-
-/* ============================================
-   CHECKBOX / CONSENT LABELS ONLY
-   Targets labels attached to checkboxes across
-   ALL HubSpot engines without relying on
-   wrapper class names. Must come AFTER the
-   general label rule to win.
-   ============================================ */
-
-/* A label that wraps a checkbox, or sits right after one */
-label:has(input[type="checkbox"]),
-input[type="checkbox"] + label,
-input[type="checkbox"] + span,
-/* Known checkbox wrappers, all engines */
-.hs-form-booleancheckbox label,
-.hs-form-booleancheckbox-display,
-ul.inputs-list label,
-.hsfc-CheckboxField label,
-.hsfc-CheckboxFieldGroup label,
-.hs-form__field--checkbox label,
-.hs-form__field__checkbox label {
-  color: #000000 !important;
-  font-family: inherit !important;      /* normal body font, not Frequenz */
-  font-weight: 400 !important;          /* not bold */
-  font-size: 0.875rem !important;
-  text-transform: none !important;      /* no ALL CAPS */
-  letter-spacing: normal !important;
-  margin-bottom: 0 !important;
-  display: inline !important;           /* sit beside the box, not above */
-  line-height: 1.4 !important;
-}
-
-/* Keep consent-text links readable */
-label:has(input[type="checkbox"]) a,
-.hs-form-booleancheckbox label a,
-.hsfc-CheckboxField label a,
-.hs-form__field--checkbox label a {
-  color: #000000 !important;
-  text-decoration: underline !important;
-  font-weight: 400 !important;
-  text-transform: none !important;
 }
