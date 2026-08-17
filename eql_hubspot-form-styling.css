@@ -13,7 +13,10 @@
   --hsf-global__font-family: inherit;
   --hsf-global__font-size: 0.875rem;
   --hsf-global__color: #000000;
-  --hsf-global-error__color: #ff0000;
+  /* NOTE: the token is --hsf-global__error-color, NOT --hsf-global-error__color.
+     The old spelling was a no-op for as long as it was in this file. It feeds
+     .hsfc-FieldLabel__RequiredIndicator and the alert colours. */
+  --hsf-global__error-color: #ff0000;
 
   --hsf-field-label__font-family: "Frequenz", sans-serif;
   --hsf-field-label__font-size: 0.875rem;
@@ -49,6 +52,90 @@
   --hsf-background__background-color: transparent;
   --hsf-background__padding: 0;
   --hsf-background__border-style: none;
+
+  /* ---- COVERAGE PASS: tokens HubSpot reads that we previously left
+     on their defaults. Setting the token is preferred over an
+     !important class override — a token automatically covers every
+     component that reads it, including field types not on any EQL
+     form yet. ---- */
+
+  /* Textarea: HubSpot falls back textarea -> input -> default, so these
+     were already inheriting correctly. Pinned explicitly so a future
+     change to the input tokens can't silently drag the textarea along. */
+  --hsf-field-textarea__background-color: transparent;
+  --hsf-field-textarea__color: #000000;
+  --hsf-field-textarea__font-family: inherit;
+  --hsf-field-textarea__font-size: 0.875rem;
+  --hsf-field-textarea__placeholder-color: #000000;
+
+  /* Dropdown popup radius — square, to match every other control. */
+  --hsf-field-dropdown-options__border-radius: 0;
+
+  /* Checkbox / radio. Class rules below already force these with
+     !important; the tokens keep any unstyled variant on-brand. */
+  --hsf-field-checkbox__background-color: transparent;
+  --hsf-field-checkbox__border-color: #000000;
+  --hsf-field-checkbox__border-style: solid;
+  --hsf-field-checkbox__border-width: 0.125rem;
+  --hsf-field-checkbox__color: #000000;
+  --hsf-field-radio__background-color: transparent;
+  --hsf-field-radio__border-color: #000000;
+  --hsf-field-radio__border-style: solid;
+  --hsf-field-radio__border-width: 0.125rem;
+  --hsf-field-radio__color: #000000;
+
+  /* Required asterisk + form-level alerts. These all chain back to
+     --hsf-global__error-color, which was misspelled until now. */
+  --hsf-field-label-requiredindicator__color: #000000;
+  --hsf-erroralert__color: #ff0000;
+  --hsf-erroralert__font-family: inherit;
+  --hsf-erroralert__font-size: 0.875rem;
+  --hsf-infoalert__color: #000000;
+  --hsf-infoalert__font-family: inherit;
+  --hsf-infoalert__font-size: 0.875rem;
+
+  /* Helper text under / beside a field. */
+  --hsf-field-description__color: #000000;
+  --hsf-field-description__font-family: inherit;
+  --hsf-field-description__font-size: 0.8125rem;
+  --hsf-field-footer__color: #000000;
+  --hsf-field-footer__font-family: inherit;
+  --hsf-field-footer__font-size: 0.8125rem;
+
+  /* Rich text + headings inside the form body. */
+  --hsf-richtext__color: #000000;
+  --hsf-richtext__font-family: inherit;
+  --hsf-richtext__font-size: 0.875rem;
+  --hsf-heading__color: #000000;
+  --hsf-heading__font-family: "Frequenz", sans-serif;
+
+  /* Button: the class rule below sets these with !important, but the
+     tokens cover HubSpot-rendered buttons the class rule doesn't reach
+     (e.g. the loading state). */
+  --hsf-button__border-color: #000000;
+  --hsf-button__border-style: solid;
+  --hsf-button__border-width: 0.125rem;
+  --hsf-button__font-weight: 700;
+  --hsf-button--hover__background-color: #FFD700;
+  --hsf-button--hover__border-color: #000000;
+  --hsf-button--hover__color: #000000;
+  --hsf-button--focus__background-color: #FFD700;
+  --hsf-button--focus__border-color: #000000;
+  --hsf-button--focus__color: #000000;
+
+  /* Multi-step progress bar. */
+  --hsf-progressbar-trackLine__background-color: #e6e6e6;
+  --hsf-progressbar-progressLine__background-color: #FFD700;
+  --hsf-progressbar-progressLine__border-color: #000000;
+  --hsf-progressbar-progressLine__border-style: solid;
+  --hsf-progressbar-progressLine__border-width: 0.0625rem;
+  --hsf-progressbar-text__color: #000000;
+  --hsf-progressbar-text__font-family: "Frequenz", sans-serif;
+  --hsf-progressbar-text__font-size: 0.875rem;
+
+  /* Horizontal gap between fields sharing a row (we only set the
+     vertical one before, so side-by-side fields used HubSpot's gap). */
+  --hsf-row__horizontal-spacing: 1rem;
 }
 
 /* Form Container - Legacy */
@@ -475,4 +562,102 @@
   color: #000000 !important;
   filter: none !important;
   outline: none !important;
+}
+
+/* Unselectable option — mute it so it doesn't read as clickable. */
+.hsfc-DropdownOptions__List__ListItem--disabled,
+[data-hsfc-id="Renderer"] .hsfc-DropdownOptions__List__ListItem--disabled {
+  color: #767676 !important;
+  background-color: #ffffff !important;
+}
+
+.hsfc-DropdownOptions__List__ListItem--disabled:hover,
+[data-hsfc-id="Renderer"] .hsfc-DropdownOptions__List__ListItem--disabled:hover {
+  background-color: #ffffff !important;
+}
+
+/* ============================================
+   COMPONENTS A TOKEN CAN'T FULLY REACH
+
+   These are the field types no EQL form uses *yet*. They are styled
+   pre-emptively because each one reads --hsf-field-input__* tokens
+   that we deliberately set to a flat, transparent, bottom-rule-only
+   treatment — a treatment that is correct for an inline text input
+   and WRONG for a box or a floating panel. That mismatch is exactly
+   what produced the transparent dropdown. Same trap, same fix.
+   ============================================ */
+
+/* FILE UPLOAD (async dropzone).
+   .hsfc-FileInputAsync reads --hsf-field-input__background-color
+   (transparent) and --hsf-field-input__border-width (0 0 2px 0), so it
+   would render as an invisible drop target with a single underline.
+   A dropzone has to read as an enclosed area, so give it a real box. */
+.hsfc-FileInputAsync,
+[data-hsfc-id="Renderer"] .hsfc-FileInputAsync {
+  background-color: #ffffff !important;
+  border: 0.125rem dashed #000000 !important;
+  border-radius: 0 !important;
+  position: relative !important;
+}
+
+.hsfc-FileInputAsync--active,
+.hsfc-FileInputAsync--dragover,
+.hsfc-FileInputAsync:hover,
+[data-hsfc-id="Renderer"] .hsfc-FileInputAsync--dragover,
+[data-hsfc-id="Renderer"] .hsfc-FileInputAsync:hover {
+  border-style: solid !important;
+  box-shadow: none !important;
+}
+
+/* Progress fill behind the filename — HubSpot ships it at opacity .05,
+   which is invisible against white. */
+.hsfc-FileInputAsync__Progress,
+[data-hsfc-id="Renderer"] .hsfc-FileInputAsync__Progress {
+  background-color: #FFD700 !important;
+  opacity: 0.35 !important;
+}
+
+/* PHONE.
+   The flag/caret block is inline with the input, so transparent is
+   correct — but HubSpot divides it with a 1px hairline that reads grey
+   against our 2px black rule. Match the weight. */
+.hsfc-PhoneInput:not(.hsfc-PhoneInput--rtl) .hsfc-PhoneInput__FlagAndCaret,
+[data-hsfc-id="Renderer"] .hsfc-PhoneInput:not(.hsfc-PhoneInput--rtl) .hsfc-PhoneInput__FlagAndCaret {
+  border-right: 0.125rem solid #000000 !important;
+  border-radius: 0 !important;
+  background-color: transparent !important;
+}
+
+.hsfc-PhoneInput__FlagAndCaret:hover,
+[data-hsfc-id="Renderer"] .hsfc-PhoneInput__FlagAndCaret:hover {
+  filter: none !important;
+  background-color: #FFD700 !important;
+}
+
+/* DATE.
+   .hsfc-DateInput is a text input driving a picker; it already inherits
+   the input tokens. Only the placeholder state needs pinning so an
+   empty date doesn't read as a filled one. */
+.hsfc-DateInput.hsfc-DateInput--placeholder,
+[data-hsfc-id="Renderer"] .hsfc-DateInput.hsfc-DateInput--placeholder {
+  color: #000000 !important;
+  opacity: 1 !important;
+}
+
+/* LINK BUTTON — HubSpot hardcodes rgb(37,51,66); no token exists. */
+.hsfc-LinkButton,
+[data-hsfc-id="Renderer"] .hsfc-LinkButton {
+  color: #000000 !important;
+  font-family: inherit !important;
+  font-size: 0.875rem !important;
+  text-decoration: underline !important;
+}
+
+/* reCAPTCHA v3 badge — hidden to match the legacy rule above.
+   NOTE: Google's terms require that if the badge is hidden you display
+   the "protected by reCAPTCHA / Privacy / Terms" attribution somewhere
+   on the form instead. That text is not on the EQL forms today. */
+.hsfc-ReCaptchaV3__Badge__Container,
+[data-hsfc-id="Renderer"] .hsfc-ReCaptchaV3__Badge__Container {
+  display: none !important;
 }
