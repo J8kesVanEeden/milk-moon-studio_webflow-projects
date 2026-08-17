@@ -83,6 +83,12 @@
   --hsf-field-radio__border-style: solid;
   --hsf-field-radio__border-width: 0.125rem;
   --hsf-field-radio__color: #000000;
+  /* MUST be 0. These fall back to --hsf-field-input__padding (0.75rem 0),
+     which adds 24px of vertical padding to a 20px box — border-box can't
+     shrink below padding+border, so the box became 20x28 and the radio
+     rendered as an oval instead of a circle. */
+  --hsf-field-checkbox__padding: 0;
+  --hsf-field-radio__padding: 0;
 
   /* Required asterisk + form-level alerts. These all chain back to
      --hsf-global__error-color, which was misspelled until now. */
@@ -304,6 +310,10 @@
 .hs-form__field input[type="checkbox"] {
   width: 1.25rem !important;
   height: 1.25rem !important;
+  /* padding + box-sizing must be pinned or the inherited field-input
+     padding inflates this to 20x28. See the token note above. */
+  padding: 0 !important;
+  box-sizing: border-box !important;
   border: 0.125rem solid #000000 !important;
   border-radius: 0 !important; /* Square */
   background-color: transparent !important;
@@ -345,6 +355,9 @@
 .hs-form__field input[type="radio"] {
   width: 1.25rem !important;
   height: 1.25rem !important;
+  /* Without these the box is 20x28 and border-radius:50% gives an oval. */
+  padding: 0 !important;
+  box-sizing: border-box !important;
   border: 0.125rem solid #000000 !important;
   border-radius: 50% !important; /* Round */
   background-color: transparent !important;
@@ -609,12 +622,39 @@
   box-shadow: none !important;
 }
 
+/* Inner content row. HubSpot pads this from --hsf-field-input__padding
+   (0.75rem 0) — no horizontal padding — so the filename and the browse
+   link sat flush against the dashed border. Same token bleed as the
+   dropdown search row and the checkbox sizing. */
+.hsfc-FileInputAsync__Content,
+[data-hsfc-id="Renderer"] .hsfc-FileInputAsync__Content {
+  padding: 0.75rem !important;
+  align-items: center !important;
+  gap: 0.75rem !important;
+}
+
 /* Progress fill behind the filename — HubSpot ships it at opacity .05,
-   which is invisible against white. */
+   which is invisible against white. Sits at width:0 until an upload
+   starts, then animates to 100%. */
 .hsfc-FileInputAsync__Progress,
 [data-hsfc-id="Renderer"] .hsfc-FileInputAsync__Progress {
   background-color: #FFD700 !important;
-  opacity: 0.35 !important;
+  opacity: 0.3 !important;
+}
+
+/* Filename / browse text — keep it readable over the progress fill. */
+.hsfc-FileInputAsync__Content__Text,
+[data-hsfc-id="Renderer"] .hsfc-FileInputAsync__Content__Text {
+  gap: 0.25rem !important;
+}
+
+.hsfc-FileInputAsync__Content__Text span,
+.hsfc-FileInputAsync__Content__Text button,
+[data-hsfc-id="Renderer"] .hsfc-FileInputAsync__Content__Text span,
+[data-hsfc-id="Renderer"] .hsfc-FileInputAsync__Content__Text button {
+  color: #000000 !important;
+  font-size: 0.8125rem !important;
+  text-decoration: underline !important;
 }
 
 /* PHONE.
