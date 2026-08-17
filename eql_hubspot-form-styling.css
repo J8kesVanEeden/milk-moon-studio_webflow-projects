@@ -440,6 +440,17 @@
   background-color: #ffffff !important;
 }
 
+/* Search row and option rows must share one left edge. HubSpot pads
+   the search wrapper from --hsf-field-input__padding (0.75rem 0), i.e.
+   NO horizontal padding — so its text sat 0.75rem left of the options.
+   Give the wrapper horizontal padding only; the search input keeps its
+   own 0.75rem vertical from the global input rule above, so both rows
+   end up 0.75rem in from the panel border on every side. */
+.hsfc-DropdownOptions__Search,
+[data-hsfc-id="Renderer"] .hsfc-DropdownOptions__Search {
+  padding: 0 0.75rem !important;
+}
+
 /* Option rows: override the inherited transparent token. */
 .hsfc-DropdownOptions__List__ListItem,
 [data-hsfc-id="Renderer"] .hsfc-DropdownOptions__List__ListItem {
@@ -447,7 +458,7 @@
   color: #000000 !important;
   font-family: inherit !important;
   font-size: 0.875rem !important;
-  padding: 0.625rem 0.75rem !important;
+  padding: 0.75rem !important; /* matches the search row's inset */
   cursor: pointer !important;
   list-style: none !important;
 }
