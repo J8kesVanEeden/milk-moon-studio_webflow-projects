@@ -448,7 +448,11 @@
   display: none !important;
 }
 
-/* Responsive */
+/* Responsive.
+   MUST be >= 16px. iOS Safari auto-zooms the viewport whenever a focused
+   input computes to less than 16px, which jolted the page on every field
+   tap. This block also previously listed only .hs-form / .hs-form__field
+   selectors, so it never matched the current hsfc-* engine at all. */
 @media (max-width: 768px) {
   .hs-form input[type="text"],
   .hs-form input[type="email"],
@@ -457,8 +461,33 @@
   .hs-form__field__input,
   .hs-form__field input,
   .hs-form__field select,
-  .hs-form__field textarea {
-    font-size: 0.875rem !important; /* 14px - matches desktop */
+  .hs-form__field textarea,
+  /* Specificity matters here. The main input block above uses
+     `.hsfc-Form input[type="text"]` (0,2,1); a bare `.hsfc-TextInput`
+     (0,1,0) loses to it and the override silently does nothing — which
+     is exactly what happened on the first attempt. Prefixing with the
+     Renderer attribute takes these to (0,3,1) so they actually win. */
+  [data-hsfc-id="Renderer"] .hsfc-Form input[type="text"],
+  [data-hsfc-id="Renderer"] .hsfc-Form input[type="email"],
+  [data-hsfc-id="Renderer"] .hsfc-Form input[type="tel"],
+  [data-hsfc-id="Renderer"] .hsfc-Form input[type="number"],
+  [data-hsfc-id="Renderer"] .hsfc-Form input[type="date"],
+  [data-hsfc-id="Renderer"] .hsfc-Form input,
+  [data-hsfc-id="Renderer"] .hsfc-Form textarea,
+  [data-hsfc-id="Renderer"] .hsfc-TextInput,
+  [data-hsfc-id="Renderer"] .hsfc-TextInput--button,
+  [data-hsfc-id="Renderer"] .hsfc-TextareaInput,
+  [data-hsfc-id="Renderer"] .hsfc-DateInput,
+  [data-hsfc-id="Renderer"] .hsfc-DropdownOptions__Search .hsfc-TextInput,
+  /* The dropdown rows need (0,3,0) — the DROPDOWN POPUP block further
+     down sets them at (0,2,0) and, being later in the file, wins a tie.
+     Rows aren't inputs so iOS won't zoom on them; this is purely so they
+     match the 16px search field directly above them. */
+  [data-hsfc-id="Renderer"] .hsfc-DropdownOptions .hsfc-DropdownOptions__List__ListItem,
+  .hsfc-TextInput,
+  .hsfc-TextareaInput,
+  .hsfc-DateInput {
+    font-size: 1rem !important; /* 16px — below this iOS zooms on focus */
   }
 }
 
@@ -700,4 +729,65 @@
 .hsfc-ReCaptchaV3__Badge__Container,
 [data-hsfc-id="Renderer"] .hsfc-ReCaptchaV3__Badge__Container {
   display: none !important;
+}
+
+/* ============================================
+   FOCUS + ERROR STATES
+
+   The blanket `outline: none !important` above removes the browser's
+   default ring. On its own that left focused and blurred fields
+   visually identical (measured live: the only difference was a 3px
+   black blur on a transparent input), which fails WCAG 2.4.7.
+
+   :focus-visible only matches keyboard focus, so a mouse click stays
+   clean while tabbing gets a real indicator. These rules sit AFTER the
+   `outline: none` block deliberately — same specificity, later wins.
+   ============================================ */
+.hsfc-TextInput:focus-visible,
+.hsfc-TextareaInput:focus-visible,
+.hsfc-DateInput:focus-visible,
+.hsfc-Form input:focus-visible,
+.hsfc-Form textarea:focus-visible,
+.hsfc-Button:focus-visible,
+.hsfc-CheckboxInput:focus-visible,
+.hsfc-RadioInput:focus-visible,
+.hsfc-FileInputAsync:focus-visible,
+.hs-form input:focus-visible,
+.hs-form textarea:focus-visible,
+.hs-form select:focus-visible,
+.hs-form__field input:focus-visible,
+[data-hsfc-id="Renderer"] .hsfc-TextInput:focus-visible,
+[data-hsfc-id="Renderer"] .hsfc-Button:focus-visible {
+  outline: 0.125rem solid #000000 !important;
+  outline-offset: 0.1875rem !important;
+}
+
+/* The dropdown option rows are focusable (tabindex=0) — same treatment,
+   but inset so the ring isn't clipped by the panel's overflow:hidden. */
+.hsfc-DropdownOptions__List__ListItem:focus-visible,
+[data-hsfc-id="Renderer"] .hsfc-DropdownOptions__List__ListItem:focus-visible {
+  outline: 0.125rem solid #000000 !important;
+  outline-offset: -0.25rem !important;
+}
+
+/* Invalid fields. HubSpot sets aria-invalid="true"; our blanket black
+   border meant an errored field looked exactly like a valid one, so the
+   red message below was the only signal. Colour is not the sole cue —
+   the message still carries the text. */
+.hsfc-TextInput[aria-invalid="true"],
+.hsfc-TextareaInput[aria-invalid="true"],
+.hsfc-DateInput[aria-invalid="true"],
+.hsfc-Form input[aria-invalid="true"],
+.hsfc-Form textarea[aria-invalid="true"],
+[data-hsfc-id="Renderer"] .hsfc-TextInput[aria-invalid="true"],
+[data-hsfc-id="Renderer"] .hsfc-TextareaInput[aria-invalid="true"] {
+  border-bottom-color: #ff0000 !important;
+}
+
+/* Keep the red visible while the user is correcting the field. */
+.hsfc-TextInput[aria-invalid="true"]:focus,
+.hsfc-TextInput[aria-invalid="true"]:focus-visible,
+.hsfc-TextareaInput[aria-invalid="true"]:focus,
+[data-hsfc-id="Renderer"] .hsfc-TextInput[aria-invalid="true"]:focus {
+  border-bottom-color: #ff0000 !important;
 }
