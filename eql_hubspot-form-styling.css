@@ -395,3 +395,73 @@
 .hsfc-RadioField .hsfc-FieldLabel em {
   color: #000000 !important;
 }
+
+/* ============================================
+   DROPDOWN POPUP — hsfc-* engine
+   Verified live on /collectibles-report.
+
+   The current form engine renders NO <select>. Every
+   `select` selector above matches nothing on these forms.
+   The dropdown is a custom combobox:
+
+     .hsfc-DropdownField
+       input.hsfc-TextInput--button      (role=combobox, readonly)
+       .hsfc-DropdownInput__Caret
+       .hsfc-DropdownOptions             (absolute, z-index 10000)
+         .hsfc-DropdownOptions__Search
+         ul.hsfc-DropdownOptions__List
+           li.hsfc-DropdownOptions__List__ListItem
+
+   WHY IT WAS TRANSPARENT: HubSpot paints the option rows with
+     background-color: var(--hsf-field-input__background-color)
+   and gives the floating panel no background of its own. We set
+   that variable to `transparent` at the top of this file so the
+   text inputs render as a bare 2px bottom rule over the hero —
+   one token, two jobs, so the popup inherited the transparency
+   and drew straight over the page content underneath.
+
+   Do NOT fix this by changing the variable; that would put a
+   solid box behind every input. Paint the popup explicitly here.
+   ============================================ */
+.hsfc-DropdownOptions,
+[data-hsfc-id="Renderer"] .hsfc-DropdownOptions {
+  background-color: #ffffff !important;
+  border: 0.125rem solid #000000 !important; /* full 2px box, not the inputs' bottom-only rule */
+  border-radius: 0 !important;
+  box-shadow: 0 0.25rem 1rem rgba(0, 0, 0, 0.15) !important;
+}
+
+/* The list and search wrapper sit inside the panel — keep them
+   opaque too so a short list never shows the page through. */
+.hsfc-DropdownOptions__List,
+.hsfc-DropdownOptions__Search,
+[data-hsfc-id="Renderer"] .hsfc-DropdownOptions__List,
+[data-hsfc-id="Renderer"] .hsfc-DropdownOptions__Search {
+  background-color: #ffffff !important;
+}
+
+/* Option rows: override the inherited transparent token. */
+.hsfc-DropdownOptions__List__ListItem,
+[data-hsfc-id="Renderer"] .hsfc-DropdownOptions__List__ListItem {
+  background-color: #ffffff !important;
+  color: #000000 !important;
+  font-family: inherit !important;
+  font-size: 0.875rem !important;
+  padding: 0.625rem 0.75rem !important;
+  cursor: pointer !important;
+  list-style: none !important;
+}
+
+/* HubSpot's default hover/selected is `filter: brightness(90%)`,
+   which reads as muddy grey. Swap it for the EQL yellow. */
+.hsfc-DropdownOptions__List__ListItem:hover,
+.hsfc-DropdownOptions__List__ListItem:focus,
+.hsfc-DropdownOptions__List__ListItem--selected,
+[data-hsfc-id="Renderer"] .hsfc-DropdownOptions__List__ListItem:hover,
+[data-hsfc-id="Renderer"] .hsfc-DropdownOptions__List__ListItem:focus,
+[data-hsfc-id="Renderer"] .hsfc-DropdownOptions__List__ListItem--selected {
+  background-color: #FFD700 !important;
+  color: #000000 !important;
+  filter: none !important;
+  outline: none !important;
+}
